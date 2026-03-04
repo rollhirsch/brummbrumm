@@ -98,15 +98,16 @@
     nav {
       position: sticky;
       top: 0;
-      z-index: 100;
-      background: rgba(26,26,46,0.97);
-      backdrop-filter: blur(10px);
+      z-index: 200;
+      background: rgba(26,26,46,0.98);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
       border-bottom: 2px solid var(--yellow);
-      padding: 0.9rem 1.5rem;
     }
     .nav-inner {
       max-width: 1100px;
       margin: 0 auto;
+      padding: 0.85rem 1.5rem;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -116,26 +117,89 @@
       font-family: var(--font-heading);
       font-weight: 800;
       color: var(--yellow);
-      font-size: 1.1rem;
+      font-size: 1rem;
       white-space: nowrap;
+      flex-shrink: 0;
     }
+    /* Desktop links */
     .nav-links {
       display: flex;
-      gap: 0.5rem;
-      flex-wrap: wrap;
-      justify-content: flex-end;
+      gap: 0.4rem;
+      flex-wrap: nowrap;
+      align-items: center;
     }
     .nav-links a {
       color: rgba(255,255,255,0.75);
-      font-size: 0.875rem;
+      font-size: 0.85rem;
       font-weight: 600;
-      padding: 0.35rem 0.75rem;
+      padding: 0.35rem 0.7rem;
       border-radius: 999px;
       transition: all 0.2s;
+      white-space: nowrap;
     }
-    .nav-links a:hover {
+    .nav-links a:hover, .nav-links a.active {
       color: var(--yellow);
-      background: rgba(245,200,66,0.1);
+      background: rgba(245,200,66,0.12);
+    }
+    /* Hamburger button */
+    .nav-burger {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+      width: 36px;
+      height: 36px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 4px;
+      flex-shrink: 0;
+    }
+    .nav-burger span {
+      display: block;
+      height: 2px;
+      background: var(--yellow);
+      border-radius: 2px;
+      transition: all 0.3s ease;
+    }
+    .nav-burger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .nav-burger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+    .nav-burger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+    /* Mobile dropdown */
+    .nav-mobile {
+      display: none;
+      flex-direction: column;
+      background: rgba(20,20,40,0.99);
+      border-top: 1px solid rgba(245,200,66,0.2);
+      overflow: hidden;
+      max-height: 0;
+      transition: max-height 0.35s ease;
+    }
+    .nav-mobile.open {
+      max-height: 400px;
+    }
+    .nav-mobile a {
+      color: rgba(255,255,255,0.8);
+      font-size: 1rem;
+      font-weight: 700;
+      padding: 1rem 1.5rem;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+    .nav-mobile a:last-child { border-bottom: none; }
+    .nav-mobile a:hover, .nav-mobile a:active {
+      color: var(--yellow);
+      background: rgba(245,200,66,0.08);
+      padding-left: 2rem;
+    }
+    @media (max-width: 768px) {
+      .nav-links  { display: none; }
+      .nav-burger { display: flex; }
+      .nav-mobile { display: flex; }
+      .nav-inner  { padding: 0.75rem 1rem; }
     }
 
     /* ═══════════════════════════════════════════
@@ -1206,9 +1270,8 @@
        RESPONSIVE
     ═══════════════════════════════════════════ */
     @media (max-width: 768px) {
-      /* Nav */
-      .nav-links { display: none; }
-      .nav-logo { font-size: 1rem; }
+      /* Nav handled by hamburger block above */
+      .nav-logo { font-size: 0.9rem; }
 
       /* Hero */
       #hero { padding: 5rem 1rem 3rem; }
@@ -1287,13 +1350,26 @@
 <nav>
   <div class="nav-inner">
     <div class="nav-logo">👶 Ey Mann, wo is' mein Auto?</div>
+    <!-- Desktop links -->
     <div class="nav-links">
       <a href="#why">Warum?</a>
       <a href="#autos">Die Autos</a>
       <a href="#babycheck">⚔️ Duell</a>
       <a href="#vergleich">Vergleich</a>
-      <a href="#quiz">Quiz starten</a>
+      <a href="#quiz">🎯 Quiz</a>
     </div>
+    <!-- Hamburger button (mobile) -->
+    <button class="nav-burger" id="nav-burger" aria-label="Menü öffnen">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <!-- Mobile dropdown -->
+  <div class="nav-mobile" id="nav-mobile">
+    <a href="#why"       onclick="navClose()">❓ Warum überhaupt?</a>
+    <a href="#autos"     onclick="navClose()">🚗 Die Autos</a>
+    <a href="#babycheck" onclick="navClose()">⚔️ Baby-Duell</a>
+    <a href="#vergleich" onclick="navClose()">📊 Vergleich</a>
+    <a href="#quiz"      onclick="navClose()">🎯 Quiz starten</a>
   </div>
 </nav>
 
@@ -2152,6 +2228,29 @@
      JAVASCRIPT
 ═══════════════════════════════════════════ -->
 <script>
+  /* ───────────────────────────────────────────
+     HAMBURGER NAV
+  ─────────────────────────────────────────── */
+  const burger = document.getElementById('nav-burger');
+  const mobileNav = document.getElementById('nav-mobile');
+
+  burger.addEventListener('click', () => {
+    const isOpen = mobileNav.classList.toggle('open');
+    burger.classList.toggle('open', isOpen);
+    burger.setAttribute('aria-label', isOpen ? 'Menü schließen' : 'Menü öffnen');
+  });
+
+  function navClose() {
+    mobileNav.classList.remove('open');
+    burger.classList.remove('open');
+    burger.setAttribute('aria-label', 'Menü öffnen');
+  }
+
+  // Close menu when clicking outside
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('nav')) navClose();
+  });
+
   /* ───────────────────────────────────────────
      COUNTDOWN TIMER
   ─────────────────────────────────────────── */
