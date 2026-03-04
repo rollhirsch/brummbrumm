@@ -175,12 +175,38 @@
       transition: all 0.3s ease;
     }
     .burger-hint {
-      font-size: 0.8rem;
-      font-weight: 800;
-      color: var(--yellow);
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1px;
       font-family: var(--font-body);
       white-space: nowrap;
       line-height: 1;
+    }
+    .burger-hint-text {
+      font-size: 0.72rem;
+      font-weight: 900;
+      color: var(--navy);
+      background: var(--yellow);
+      padding: 0.15rem 0.4rem;
+      border-radius: 4px;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      animation: burger-pulse 1.8s ease-in-out infinite;
+    }
+    @keyframes burger-pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50%       { opacity: 0.75; transform: scale(0.95); }
+    }
+    .nav-burger.open .burger-hint-text {
+      background: rgba(245,200,66,0.2);
+      color: var(--yellow);
+      animation: none;
+    }
+    .burger-hint-sub {
+      font-size: 0.75rem;
+      font-weight: 800;
+      color: var(--yellow);
     }
     .burger-arrow {
       display: inline-block;
@@ -1437,7 +1463,10 @@
       <span class="burger-lines">
         <span></span><span></span><span></span>
       </span>
-      <span class="burger-hint">🚗 <span class="burger-arrow" id="burger-arrow">▼</span></span>
+      <span class="burger-hint">
+        <span class="burger-hint-text">Hier tippen!</span>
+        <span class="burger-hint-sub">🚗 <span class="burger-arrow" id="burger-arrow">▼</span></span>
+      </span>
     </button>
   </div>
   <!-- Mobile dropdown -->
