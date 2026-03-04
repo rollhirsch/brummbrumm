@@ -145,29 +145,23 @@
     .nav-burger {
       display: none;
       flex-direction: column;
-      justify-content: center;
       align-items: center;
-      gap: 4px;
+      gap: 3px;
       cursor: pointer;
       background: transparent;
       border: none;
       padding: 6px 8px;
       flex-shrink: 0;
-      transition: opacity 0.2s;
     }
     .nav-burger:hover { opacity: 0.8; }
-    .burger-clickme {
-      font-size: 0.6rem;
-      font-weight: 700;
-      color: rgba(245,200,66,0.7);
-      letter-spacing: 0.05em;
-      text-transform: lowercase;
-      line-height: 1;
+    .burger-bars {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      width: 24px;
     }
-    .nav-burger.open .burger-clickme { display: none; }
-    .nav-burger span {
-      display: block;
-      width: 22px;
+    .burger-bar {
+      width: 24px;
       height: 2px;
       background: var(--yellow);
       border-radius: 2px;
@@ -175,14 +169,20 @@
     }
     @keyframes burger-blink {
       0%, 100% { opacity: 1; }
-      50%       { opacity: 0.25; }
+      50%       { opacity: 0.2; }
     }
-    .nav-burger:not(.open) span { animation: burger-blink 1.4s ease-in-out infinite; }
-    .nav-burger:not(.open) span:nth-child(2) { animation-delay: 0.15s; }
-    .nav-burger:not(.open) span:nth-child(3) { animation-delay: 0.3s; }
-    .nav-burger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-    .nav-burger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
-    .nav-burger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+    .nav-burger:not(.open) .burger-bars { animation: burger-blink 1.4s ease-in-out infinite; }
+    .nav-burger.open .burger-bar:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .nav-burger.open .burger-bar:nth-child(2) { opacity: 0; transform: scaleX(0); }
+    .nav-burger.open .burger-bar:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+    .burger-clickme {
+      font-size: 0.6rem;
+      font-weight: 700;
+      color: rgba(245,200,66,0.7);
+      letter-spacing: 0.05em;
+      line-height: 1;
+    }
+    .nav-burger.open .burger-clickme { visibility: hidden; }
     /* Mobile dropdown */
     .nav-mobile {
       display: none;
@@ -1426,7 +1426,11 @@
     </div>
     <!-- Hamburger button (mobile) -->
     <button class="nav-burger" id="nav-burger" aria-label="Menü öffnen">
-      <span></span><span></span><span></span>
+      <div class="burger-bars">
+        <div class="burger-bar"></div>
+        <div class="burger-bar"></div>
+        <div class="burger-bar"></div>
+      </div>
       <small class="burger-clickme">click me</small>
     </button>
   </div>
