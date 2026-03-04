@@ -159,6 +159,15 @@
       transition: background 0.2s;
     }
     .nav-burger:hover { opacity: 0.8; }
+    .burger-clickme {
+      font-size: 0.6rem;
+      font-weight: 700;
+      color: rgba(245,200,66,0.7);
+      letter-spacing: 0.05em;
+      text-transform: lowercase;
+      line-height: 1;
+    }
+    .nav-burger.open .burger-clickme { display: none; }
     .nav-burger span {
       display: block;
       width: 22px;
@@ -1421,6 +1430,7 @@
     <!-- Hamburger button (mobile) -->
     <button class="nav-burger" id="nav-burger" aria-label="Menü öffnen">
       <span></span><span></span><span></span>
+      <small class="burger-clickme">click me</small>
     </button>
   </div>
   <!-- Mobile dropdown -->
