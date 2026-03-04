@@ -1,0 +1,2680 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ey Mann, wo is' mein Auto? 👶</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    /* ═══════════════════════════════════════════
+       CSS CUSTOM PROPERTIES
+    ═══════════════════════════════════════════ */
+    :root {
+      --navy: #1a1a2e;
+      --navy-light: #16213e;
+      --yellow: #f5c842;
+      --yellow-dark: #e0b230;
+      --baby-blue: #a8d8ea;
+      --baby-blue-light: #d4eef9;
+      --white: #ffffff;
+      --light-bg: #f0f4ff;
+      --card-bg: #ffffff;
+      --accent: #ff6b6b;
+      --accent-light: #ffd6d6;
+      --green: #4caf88;
+      --text-dark: #1a1a2e;
+      --text-muted: #6b7280;
+      --border: #e5e7eb;
+      --shadow: 0 4px 24px rgba(26,26,46,0.10);
+      --shadow-lg: 0 8px 48px rgba(26,26,46,0.16);
+      --radius: 16px;
+      --radius-sm: 8px;
+      --font-heading: 'Space Grotesk', sans-serif;
+      --font-body: 'Nunito', sans-serif;
+    }
+
+    /* ═══════════════════════════════════════════
+       RESET & BASE
+    ═══════════════════════════════════════════ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body);
+      background: var(--light-bg);
+      color: var(--text-dark);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    img { max-width: 100%; display: block; }
+    a { color: inherit; text-decoration: none; }
+
+    /* ═══════════════════════════════════════════
+       UTILITIES
+    ═══════════════════════════════════════════ */
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 1.5rem; }
+    .section { padding: 5rem 0; }
+    .section-title {
+      font-family: var(--font-heading);
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 800;
+      color: var(--navy);
+      text-align: center;
+      margin-bottom: 0.5rem;
+    }
+    .section-sub {
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 1.1rem;
+      margin-bottom: 3rem;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: var(--yellow);
+      color: var(--navy);
+      font-weight: 800;
+      font-size: 0.85rem;
+      padding: 0.35rem 1rem;
+      border-radius: 999px;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+    }
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ═══════════════════════════════════════════
+       NAVIGATION
+    ═══════════════════════════════════════════ */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(26,26,46,0.97);
+      backdrop-filter: blur(10px);
+      border-bottom: 2px solid var(--yellow);
+      padding: 0.9rem 1.5rem;
+    }
+    .nav-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+    .nav-logo {
+      font-family: var(--font-heading);
+      font-weight: 800;
+      color: var(--yellow);
+      font-size: 1.1rem;
+      white-space: nowrap;
+    }
+    .nav-links {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+    .nav-links a {
+      color: rgba(255,255,255,0.75);
+      font-size: 0.875rem;
+      font-weight: 600;
+      padding: 0.35rem 0.75rem;
+      border-radius: 999px;
+      transition: all 0.2s;
+    }
+    .nav-links a:hover {
+      color: var(--yellow);
+      background: rgba(245,200,66,0.1);
+    }
+
+    /* ═══════════════════════════════════════════
+       HERO
+    ═══════════════════════════════════════════ */
+    #hero {
+      background: linear-gradient(135deg, var(--navy) 0%, #0f3460 60%, #16213e 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 6rem 1.5rem 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+    #hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 70% 50%, rgba(168,216,234,0.08) 0%, transparent 60%),
+                  radial-gradient(ellipse at 20% 80%, rgba(245,200,66,0.06) 0%, transparent 50%);
+    }
+    .hero-inner {
+      position: relative;
+      max-width: 800px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .hero-shout {
+      font-family: var(--font-heading);
+      font-size: clamp(2.2rem, 8vw, 5rem);
+      font-weight: 800;
+      line-height: 1.0;
+      color: var(--yellow);
+      letter-spacing: -0.02em;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+      text-shadow: 0 4px 32px rgba(245,200,66,0.35);
+      animation: shoutIn 0.8s cubic-bezier(0.22,1,0.36,1) both;
+    }
+    @keyframes shoutIn {
+      from { opacity: 0; transform: scale(0.7) translateY(30px); }
+      to   { opacity: 1; transform: scale(1) translateY(0); }
+    }
+    .hero-shout-sub {
+      font-size: clamp(0.85rem, 2vw, 1.05rem);
+      color: rgba(255,255,255,0.5);
+      font-style: italic;
+      margin-bottom: 2rem;
+    }
+    .hero-gif-wrap {
+      max-width: 420px;
+      margin: 0 auto 1rem;
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.4);
+      border: 2px solid rgba(245,200,66,0.25);
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(168,216,234,0.15);
+      border: 1px solid rgba(168,216,234,0.3);
+      color: var(--baby-blue);
+      font-size: 0.875rem;
+      font-weight: 700;
+      padding: 0.5rem 1.2rem;
+      border-radius: 999px;
+      margin-bottom: 2rem;
+      animation: pulse-border 2s ease-in-out infinite;
+    }
+    @keyframes pulse-border {
+      0%, 100% { border-color: rgba(168,216,234,0.3); }
+      50% { border-color: rgba(168,216,234,0.7); }
+    }
+    .hero-title {
+      font-family: var(--font-heading);
+      font-size: clamp(2.2rem, 6vw, 4rem);
+      font-weight: 800;
+      color: var(--white);
+      line-height: 1.15;
+      margin-bottom: 1rem;
+    }
+    .hero-title span { color: var(--yellow); }
+    .hero-subtitle {
+      font-family: var(--font-heading);
+      font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+      color: var(--baby-blue);
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+    }
+    .hero-letter {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: var(--radius);
+      padding: 2rem;
+      text-align: left;
+      color: rgba(255,255,255,0.9);
+      font-size: 1.05rem;
+      line-height: 1.8;
+      margin-bottom: 2.5rem;
+      position: relative;
+    }
+    .hero-letter::before {
+      content: '"';
+      font-size: 5rem;
+      color: var(--yellow);
+      opacity: 0.3;
+      position: absolute;
+      top: -1rem;
+      left: 1rem;
+      font-family: Georgia, serif;
+      line-height: 1;
+    }
+    .hero-letter p { margin-bottom: 0.75rem; }
+    .hero-letter p:last-child { margin-bottom: 0; }
+    .hero-letter strong { color: var(--yellow); }
+
+    /* Countdown */
+    .countdown-section {
+      margin-bottom: 2rem;
+    }
+    .countdown-label {
+      color: var(--accent);
+      font-weight: 800;
+      font-size: 0.875rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 0.75rem;
+    }
+    .countdown {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .countdown-box {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: var(--radius-sm);
+      padding: 1rem 1.25rem;
+      min-width: 80px;
+      text-align: center;
+    }
+    .countdown-num {
+      font-family: var(--font-heading);
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: var(--yellow);
+      line-height: 1;
+      display: block;
+    }
+    .countdown-unit {
+      color: rgba(255,255,255,0.5);
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-top: 0.25rem;
+      display: block;
+    }
+
+    /* Stressmeter */
+    .stressmeter {
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: var(--radius);
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 2rem;
+      text-align: left;
+    }
+    .stressmeter-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 0.75rem;
+    }
+    .stressmeter-label {
+      color: rgba(255,255,255,0.8);
+      font-size: 0.9rem;
+      font-weight: 700;
+    }
+    .stressmeter-value {
+      color: var(--accent);
+      font-weight: 800;
+      font-size: 0.9rem;
+    }
+    .stressmeter-bar {
+      height: 10px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+    .stressmeter-fill {
+      height: 100%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--green), var(--yellow), var(--accent));
+      transition: width 1s ease;
+    }
+    .stressmeter-emoji {
+      text-align: center;
+      font-size: 1.5rem;
+      margin-top: 0.5rem;
+    }
+
+    .hero-cta {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: var(--font-body);
+      font-weight: 800;
+      font-size: 1rem;
+      padding: 1rem 2rem;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: all 0.25s;
+      border: 2px solid transparent;
+      text-decoration: none;
+    }
+    .btn-primary {
+      background: var(--yellow);
+      color: var(--navy);
+    }
+    .btn-primary:hover {
+      background: var(--yellow-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(245,200,66,0.4);
+    }
+    .btn-outline {
+      border-color: rgba(255,255,255,0.3);
+      color: var(--white);
+    }
+    .btn-outline:hover {
+      border-color: var(--baby-blue);
+      color: var(--baby-blue);
+      transform: translateY(-2px);
+    }
+
+    /* Floating decorations */
+    .hero-float {
+      position: absolute;
+      opacity: 0.06;
+      font-size: 8rem;
+      animation: float 6s ease-in-out infinite;
+      user-select: none;
+      pointer-events: none;
+    }
+    .hero-float:nth-child(1) { top: 10%; left: 5%; animation-delay: 0s; }
+    .hero-float:nth-child(2) { top: 60%; right: 5%; animation-delay: 2s; font-size: 5rem; }
+    .hero-float:nth-child(3) { bottom: 10%; left: 15%; animation-delay: 4s; font-size: 4rem; }
+    @keyframes float {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-20px) rotate(5deg); }
+    }
+
+    /* ═══════════════════════════════════════════
+       WHY SECTION (Humor)
+    ═══════════════════════════════════════════ */
+    #why { background: var(--white); }
+    .why-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+    .why-card {
+      background: var(--light-bg);
+      border-radius: var(--radius);
+      padding: 2rem;
+      border-left: 4px solid var(--yellow);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .why-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow);
+    }
+    .why-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+    .why-card h3 {
+      font-family: var(--font-heading);
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 0.75rem;
+    }
+    .why-card p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      line-height: 1.7;
+    }
+    .why-card.accent-red { border-left-color: var(--accent); }
+    .why-card.accent-blue { border-left-color: var(--baby-blue); }
+
+    /* ═══════════════════════════════════════════
+       CAR SHOWCASE
+    ═══════════════════════════════════════════ */
+    #autos { background: var(--light-bg); }
+    .cars-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 1.75rem;
+    }
+    .car-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      transition: transform 0.3s, box-shadow 0.3s;
+      display: flex;
+      flex-direction: column;
+    }
+    .car-card:hover {
+      transform: translateY(-6px) rotate(-0.5deg);
+      box-shadow: var(--shadow-lg);
+    }
+    .car-img-wrap {
+      width: 100%;
+      height: 200px;
+      overflow: hidden;
+      position: relative;
+      background: linear-gradient(135deg, #e8edf5, #d0d8e8);
+    }
+    .car-img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+    .car-card:hover .car-img-wrap img { transform: scale(1.05); }
+    .car-img-fallback {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-size: 4rem;
+    }
+    .car-badge {
+      position: absolute;
+      top: 0.75rem;
+      right: 0.75rem;
+      background: var(--navy);
+      color: var(--yellow);
+      font-size: 0.75rem;
+      font-weight: 800;
+      padding: 0.25rem 0.75rem;
+      border-radius: 999px;
+    }
+    .car-body { padding: 1.5rem; flex: 1; display: flex; flex-direction: column; }
+    .car-tagline {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 0.4rem;
+    }
+    .car-name {
+      font-family: var(--font-heading);
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 0.25rem;
+    }
+    .car-joke {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      font-style: italic;
+      margin-bottom: 1.25rem;
+      padding: 0.5rem 0.75rem;
+      background: var(--light-bg);
+      border-radius: var(--radius-sm);
+      border-left: 3px solid var(--yellow);
+    }
+    .car-lists {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+      margin-bottom: 1.25rem;
+    }
+    .car-list-title {
+      font-size: 0.8rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.5rem;
+    }
+    .car-list-title.pros { color: var(--green); }
+    .car-list-title.cons { color: var(--accent); }
+    .car-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+    .car-list li {
+      font-size: 0.85rem;
+      color: var(--text-dark);
+      display: flex;
+      gap: 0.4rem;
+      align-items: flex-start;
+    }
+    .car-list li::before { flex-shrink: 0; margin-top: 0.05rem; }
+    .car-list.pros li::before { content: '✅'; font-size: 0.7rem; }
+    .car-list.cons li::before { content: '❌'; font-size: 0.7rem; }
+    .car-boot {
+      margin-bottom: 1rem;
+    }
+    .car-boot-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.35rem;
+    }
+    .car-boot-label {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--text-muted);
+    }
+    .car-boot-vol {
+      font-family: var(--font-heading);
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--navy);
+    }
+    .boot-bar {
+      height: 8px;
+      background: var(--light-bg);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+    .boot-fill {
+      height: 100%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--baby-blue), var(--navy));
+      transition: width 1s ease 0.3s;
+    }
+    .car-baby-comment {
+      margin-top: auto;
+      background: linear-gradient(135deg, rgba(168,216,234,0.15), rgba(245,200,66,0.1));
+      border: 1px solid rgba(168,216,234,0.3);
+      border-radius: var(--radius-sm);
+      padding: 0.75rem;
+      font-size: 0.85rem;
+      color: var(--navy);
+      font-style: italic;
+    }
+    .car-baby-comment::before { content: '👶 '; }
+    .car-price {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+    }
+    .car-price span { color: var(--green); font-weight: 800; }
+
+    /* ═══════════════════════════════════════════
+       QUIZ
+    ═══════════════════════════════════════════ */
+    #quiz { background: var(--navy); }
+    #quiz .section-title { color: var(--white); }
+    #quiz .section-sub { color: rgba(255,255,255,0.6); }
+    .quiz-container {
+      max-width: 680px;
+      margin: 0 auto;
+    }
+    .quiz-progress-wrap {
+      margin-bottom: 2.5rem;
+    }
+    .quiz-progress-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.75rem;
+    }
+    .quiz-progress-label {
+      color: rgba(255,255,255,0.7);
+      font-size: 0.875rem;
+      font-weight: 700;
+    }
+    .quiz-progress-count {
+      color: var(--yellow);
+      font-family: var(--font-heading);
+      font-weight: 800;
+    }
+    .quiz-progress-bar {
+      height: 6px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+    .quiz-progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--baby-blue), var(--yellow));
+      border-radius: 999px;
+      transition: width 0.5s ease;
+    }
+    .quiz-card {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: var(--radius);
+      padding: 2.5rem;
+      display: none;
+      animation: slideIn 0.4s ease;
+    }
+    .quiz-card.active { display: block; }
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateX(30px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+    .quiz-question-num {
+      color: var(--yellow);
+      font-size: 0.8rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 0.5rem;
+    }
+    .quiz-question {
+      font-family: var(--font-heading);
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 0.5rem;
+      line-height: 1.3;
+    }
+    .quiz-subtext {
+      color: rgba(255,255,255,0.5);
+      font-size: 0.9rem;
+      font-style: italic;
+      margin-bottom: 2rem;
+    }
+    .quiz-options {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+    .quiz-option {
+      background: rgba(255,255,255,0.06);
+      border: 2px solid rgba(255,255,255,0.12);
+      border-radius: var(--radius-sm);
+      padding: 1rem 1.25rem;
+      color: var(--white);
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.25s;
+      text-align: left;
+      font-family: var(--font-body);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .quiz-option:hover {
+      background: rgba(245,200,66,0.12);
+      border-color: var(--yellow);
+      color: var(--yellow);
+      transform: translateX(4px);
+    }
+    .quiz-option.selected {
+      background: rgba(245,200,66,0.2);
+      border-color: var(--yellow);
+      color: var(--yellow);
+    }
+    .quiz-option-emoji { font-size: 1.3rem; flex-shrink: 0; }
+    .quiz-next-btn {
+      margin-top: 1.5rem;
+      width: 100%;
+      background: var(--yellow);
+      color: var(--navy);
+      border: none;
+      padding: 1rem;
+      border-radius: 999px;
+      font-family: var(--font-body);
+      font-size: 1rem;
+      font-weight: 800;
+      cursor: pointer;
+      transition: all 0.25s;
+      display: none;
+    }
+    .quiz-next-btn:hover {
+      background: var(--yellow-dark);
+      transform: translateY(-2px);
+    }
+    .quiz-next-btn.visible { display: block; }
+
+    /* ═══════════════════════════════════════════
+       RESULT
+    ═══════════════════════════════════════════ */
+    #result { background: var(--navy); display: none; }
+    #result.visible { display: block; }
+    .result-container {
+      max-width: 700px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .result-badge {
+      background: var(--yellow);
+      color: var(--navy);
+      font-size: 0.8rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      padding: 0.4rem 1.2rem;
+      border-radius: 999px;
+      display: inline-block;
+      margin-bottom: 1.5rem;
+    }
+    .result-title {
+      font-family: var(--font-heading);
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 800;
+      color: var(--white);
+      margin-bottom: 0.5rem;
+    }
+    .result-subtitle {
+      color: rgba(255,255,255,0.6);
+      font-size: 1.1rem;
+      margin-bottom: 2.5rem;
+    }
+    .result-car {
+      background: rgba(255,255,255,0.06);
+      border: 2px solid var(--yellow);
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin-bottom: 2rem;
+    }
+    .result-car-img {
+      width: 100%;
+      height: 240px;
+      object-fit: cover;
+      background: linear-gradient(135deg, #e8edf5, #d0d8e8);
+    }
+    .result-car-img-fallback {
+      width: 100%;
+      height: 240px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 5rem;
+      background: linear-gradient(135deg, #1a2a4a, #0f3460);
+    }
+    .result-car-body {
+      padding: 2rem;
+      text-align: left;
+    }
+    .result-car-name {
+      font-family: var(--font-heading);
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--yellow);
+      margin-bottom: 0.5rem;
+    }
+    .result-car-why {
+      color: rgba(255,255,255,0.8);
+      font-size: 1rem;
+      line-height: 1.7;
+      margin-bottom: 1.25rem;
+    }
+    .result-baby-reaction {
+      background: rgba(168,216,234,0.1);
+      border: 1px solid rgba(168,216,234,0.3);
+      border-radius: var(--radius-sm);
+      padding: 1rem;
+      color: var(--baby-blue);
+      font-style: italic;
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+    .result-actions {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .btn-restart {
+      background: transparent;
+      border: 2px solid rgba(255,255,255,0.3);
+      color: var(--white);
+      font-family: var(--font-body);
+      font-weight: 800;
+      font-size: 1rem;
+      padding: 0.875rem 1.75rem;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: all 0.25s;
+    }
+    .btn-restart:hover {
+      border-color: var(--yellow);
+      color: var(--yellow);
+    }
+    .btn-whatsapp {
+      background: #25D366;
+      color: white;
+      font-family: var(--font-body);
+      font-weight: 800;
+      font-size: 1rem;
+      padding: 0.875rem 1.75rem;
+      border-radius: 999px;
+      cursor: pointer;
+      border: none;
+      transition: all 0.25s;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .btn-whatsapp:hover { opacity: 0.9; transform: translateY(-2px); }
+
+    /* Confetti Canvas */
+    #confetti-canvas {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 999;
+    }
+
+    /* ═══════════════════════════════════════════
+       COMPARISON TABLE
+    ═══════════════════════════════════════════ */
+    #vergleich { background: var(--white); overflow-x: auto; }
+    .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    table {
+      width: 100%;
+      min-width: 700px;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+    thead {
+      background: var(--navy);
+      color: var(--white);
+    }
+    thead th {
+      padding: 1rem 0.75rem;
+      font-family: var(--font-heading);
+      font-weight: 700;
+      text-align: center;
+      font-size: 0.85rem;
+    }
+    thead th:first-child { text-align: left; }
+    tbody tr {
+      border-bottom: 1px solid var(--border);
+      transition: background 0.2s;
+    }
+    tbody tr:hover { background: var(--light-bg); }
+    tbody td {
+      padding: 0.875rem 0.75rem;
+      text-align: center;
+      vertical-align: middle;
+    }
+    tbody td:first-child {
+      text-align: left;
+      font-weight: 700;
+      font-family: var(--font-heading);
+      color: var(--navy);
+    }
+    .stars { color: var(--yellow); letter-spacing: -0.1em; }
+    .highlight-row { background: rgba(245,200,66,0.06); }
+    .table-note {
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      margin-top: 1rem;
+      font-style: italic;
+    }
+
+    /* ═══════════════════════════════════════════
+       BABY CHECK QUIZ
+    ═══════════════════════════════════════════ */
+    #babycheck { background: linear-gradient(135deg, #0f3460 0%, #1a1a2e 100%); }
+    #babycheck .section-title { color: var(--white); }
+    #babycheck .section-sub { color: rgba(255,255,255,0.55); }
+
+    .bc-players {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-bottom: 2.5rem;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .bc-player {
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      text-align: center;
+      border: 2px solid transparent;
+      transition: all 0.3s;
+    }
+    .bc-player.philipp {
+      background: rgba(168,216,234,0.1);
+      border-color: rgba(168,216,234,0.3);
+    }
+    .bc-player.annalisa {
+      background: rgba(255,182,193,0.1);
+      border-color: rgba(255,182,193,0.35);
+    }
+    .bc-player.active-player {
+      border-width: 2px;
+      box-shadow: 0 0 0 3px rgba(245,200,66,0.4);
+      border-color: var(--yellow);
+    }
+    .bc-player-avatar { font-size: 2.5rem; margin-bottom: 0.4rem; }
+    .bc-player-name {
+      font-family: var(--font-heading);
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: var(--white);
+      margin-bottom: 0.2rem;
+    }
+    .bc-player-score {
+      font-size: 2rem;
+      font-weight: 900;
+      font-family: var(--font-heading);
+      color: var(--yellow);
+    }
+    .bc-player-label {
+      font-size: 0.75rem;
+      color: rgba(255,255,255,0.5);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .bc-phase-banner {
+      background: rgba(245,200,66,0.12);
+      border: 1px solid rgba(245,200,66,0.3);
+      border-radius: var(--radius);
+      padding: 1.25rem 1.5rem;
+      text-align: center;
+      margin-bottom: 2rem;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .bc-phase-banner h3 {
+      font-family: var(--font-heading);
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: var(--yellow);
+      margin-bottom: 0.25rem;
+    }
+    .bc-phase-banner p {
+      color: rgba(255,255,255,0.65);
+      font-size: 0.9rem;
+    }
+
+    .bc-container { max-width: 640px; margin: 0 auto; }
+
+    .bc-progress-wrap { margin-bottom: 2rem; }
+    .bc-progress-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0.5rem;
+    }
+    .bc-progress-label { color: rgba(255,255,255,0.6); font-size: 0.85rem; font-weight: 700; }
+    .bc-progress-count { color: var(--yellow); font-family: var(--font-heading); font-weight: 800; font-size: 0.85rem; }
+    .bc-progress-bar { height: 6px; background: rgba(255,255,255,0.1); border-radius: 999px; overflow: hidden; }
+    .bc-progress-fill { height: 100%; border-radius: 999px; background: linear-gradient(90deg, #ff9ff3, var(--yellow)); transition: width 0.5s ease; }
+
+    .bc-card {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: var(--radius);
+      padding: 2rem;
+      display: none;
+      animation: slideIn 0.4s ease;
+    }
+    .bc-card.active { display: block; }
+    .bc-q-num { color: var(--yellow); font-size: 0.78rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.4rem; }
+    .bc-question {
+      font-family: var(--font-heading);
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 0.35rem;
+      line-height: 1.35;
+    }
+    .bc-baby-hint {
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.45);
+      font-style: italic;
+      margin-bottom: 1.5rem;
+    }
+    .bc-options {
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+    }
+    .bc-option {
+      background: rgba(255,255,255,0.06);
+      border: 2px solid rgba(255,255,255,0.12);
+      border-radius: var(--radius-sm);
+      padding: 0.9rem 1.1rem;
+      color: var(--white);
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.22s;
+      text-align: left;
+      font-family: var(--font-body);
+      width: 100%;
+    }
+    .bc-option:hover {
+      background: rgba(245,200,66,0.12);
+      border-color: var(--yellow);
+      color: var(--yellow);
+      transform: translateX(4px);
+    }
+    .bc-option.correct {
+      background: rgba(76,175,136,0.25);
+      border-color: var(--green);
+      color: #7fffcb;
+    }
+    .bc-option.wrong {
+      background: rgba(255,107,107,0.2);
+      border-color: var(--accent);
+      color: #ffaaaa;
+    }
+    .bc-option:disabled { cursor: not-allowed; transform: none; }
+    .bc-feedback {
+      margin-top: 1rem;
+      padding: 0.85rem 1rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.9rem;
+      font-weight: 700;
+      display: none;
+    }
+    .bc-feedback.correct { background: rgba(76,175,136,0.15); color: #7fffcb; border: 1px solid rgba(76,175,136,0.3); }
+    .bc-feedback.wrong   { background: rgba(255,107,107,0.15); color: #ffaaaa; border: 1px solid rgba(255,107,107,0.3); }
+    .bc-next-btn {
+      margin-top: 1.25rem;
+      width: 100%;
+      background: var(--yellow);
+      color: var(--navy);
+      border: none;
+      padding: 0.9rem;
+      border-radius: 999px;
+      font-family: var(--font-body);
+      font-size: 1rem;
+      font-weight: 800;
+      cursor: pointer;
+      transition: all 0.25s;
+      display: none;
+    }
+    .bc-next-btn.visible { display: block; }
+    .bc-next-btn:hover { background: var(--yellow-dark); transform: translateY(-2px); }
+
+    /* Start / Result screens */
+    .bc-start-screen, .bc-result-screen {
+      text-align: center;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    .bc-start-screen { display: block; }
+    .bc-result-screen { display: none; }
+    .bc-result-screen.visible { display: block; }
+
+    .bc-start-emoji { font-size: 4rem; margin-bottom: 1rem; }
+    .bc-start-screen h3 {
+      font-family: var(--font-heading);
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: var(--white);
+      margin-bottom: 0.75rem;
+    }
+    .bc-start-screen p { color: rgba(255,255,255,0.6); margin-bottom: 0.5rem; line-height: 1.7; }
+    .bc-start-btn {
+      margin-top: 1.5rem;
+      background: var(--yellow);
+      color: var(--navy);
+      border: none;
+      padding: 1rem 2.5rem;
+      border-radius: 999px;
+      font-family: var(--font-body);
+      font-size: 1.05rem;
+      font-weight: 800;
+      cursor: pointer;
+      transition: all 0.25s;
+    }
+    .bc-start-btn:hover { background: var(--yellow-dark); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(245,200,66,0.35); }
+
+    .bc-result-trophy { font-size: 5rem; margin-bottom: 1rem; }
+    .bc-result-winner {
+      font-family: var(--font-heading);
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--yellow);
+      margin-bottom: 0.5rem;
+    }
+    .bc-result-detail { color: rgba(255,255,255,0.7); line-height: 1.7; margin-bottom: 1.5rem; }
+    .bc-result-scores {
+      display: flex;
+      gap: 1.5rem;
+      justify-content: center;
+      margin: 1.5rem 0;
+      flex-wrap: wrap;
+    }
+    .bc-score-box {
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: var(--radius);
+      padding: 1rem 2rem;
+      text-align: center;
+      min-width: 120px;
+    }
+    .bc-score-box.winner { border-color: var(--yellow); background: rgba(245,200,66,0.12); }
+    .bc-score-big {
+      font-family: var(--font-heading);
+      font-size: 2.5rem;
+      font-weight: 900;
+      color: var(--yellow);
+    }
+    .bc-score-name { color: rgba(255,255,255,0.7); font-size: 0.85rem; font-weight: 700; margin-top: 0.25rem; }
+    .bc-baby-verdict {
+      background: rgba(168,216,234,0.1);
+      border: 1px solid rgba(168,216,234,0.3);
+      border-radius: var(--radius-sm);
+      padding: 1.25rem;
+      color: var(--baby-blue);
+      font-style: italic;
+      font-size: 0.95rem;
+      line-height: 1.7;
+      margin: 1.5rem 0;
+      text-align: left;
+    }
+    .bc-restart-btn {
+      background: transparent;
+      border: 2px solid rgba(255,255,255,0.25);
+      color: rgba(255,255,255,0.7);
+      padding: 0.8rem 2rem;
+      border-radius: 999px;
+      font-family: var(--font-body);
+      font-weight: 700;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: all 0.25s;
+    }
+    .bc-restart-btn:hover { border-color: var(--yellow); color: var(--yellow); }
+
+    /* ═══════════════════════════════════════════
+       FOOTER
+    ═══════════════════════════════════════════ */
+    footer {
+      background: var(--navy);
+      color: rgba(255,255,255,0.5);
+      text-align: center;
+      padding: 2.5rem 1.5rem;
+      font-size: 0.9rem;
+      border-top: 2px solid var(--yellow);
+    }
+    footer strong { color: var(--yellow); }
+    footer .footer-baby {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+    footer p { line-height: 1.8; }
+
+    /* ═══════════════════════════════════════════
+       RESPONSIVE
+    ═══════════════════════════════════════════ */
+    @media (max-width: 768px) {
+      /* Nav */
+      .nav-links { display: none; }
+      .nav-logo { font-size: 1rem; }
+
+      /* Hero */
+      #hero { padding: 5rem 1rem 3rem; }
+      .hero-gif-wrap { max-width: 100%; }
+      .hero-letter { padding: 1.25rem; font-size: 0.95rem; }
+      .hero-letter::before { font-size: 3rem; }
+      .hero-cta { flex-direction: column; align-items: stretch; }
+      .hero-cta .btn { text-align: center; justify-content: center; }
+
+      /* Countdown */
+      .countdown { gap: 0.4rem; }
+      .countdown-box { min-width: 56px; padding: 0.65rem 0.5rem; }
+      .countdown-num { font-size: 1.6rem; }
+      .countdown-unit { font-size: 0.65rem; }
+
+      /* Stressmeter */
+      .stressmeter { padding: 1rem; }
+
+      /* Sections */
+      .section { padding: 3rem 0; }
+      .section-title { font-size: 1.6rem; }
+
+      /* Why cards */
+      .why-grid { grid-template-columns: 1fr; gap: 1rem; }
+
+      /* Cars */
+      .cars-grid { grid-template-columns: 1fr; }
+      .car-lists { grid-template-columns: 1fr; gap: 0.5rem; }
+      .car-body { padding: 1.25rem; }
+
+      /* Quiz */
+      .quiz-card { padding: 1.25rem; }
+      .quiz-question { font-size: 1.2rem; }
+      .quiz-option { font-size: 0.9rem; padding: 0.8rem 1rem; }
+
+      /* Baby Check */
+      .bc-players { grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+      .bc-player { padding: 0.9rem 0.5rem; }
+      .bc-player-avatar { font-size: 2rem; }
+      .bc-player-score { font-size: 1.6rem; }
+      .bc-player-name { font-size: 0.95rem; }
+      .bc-card { padding: 1.25rem; }
+      .bc-question { font-size: 1.15rem; }
+      .bc-option { font-size: 0.9rem; padding: 0.8rem 0.9rem; }
+      .bc-result-scores { gap: 0.75rem; }
+      .bc-score-box { min-width: 100px; padding: 0.9rem 1rem; }
+      .bc-score-big { font-size: 2rem; }
+
+      /* Result */
+      .result-car-body { padding: 1.25rem; }
+      .result-car-name { font-size: 1.5rem; }
+      .result-actions { flex-direction: column; align-items: stretch; }
+      .result-actions button, .result-actions .btn-whatsapp { text-align: center; justify-content: center; width: 100%; }
+
+      /* Table */
+      table { font-size: 0.8rem; }
+      thead th, tbody td { padding: 0.65rem 0.5rem; }
+    }
+
+    @media (max-width: 400px) {
+      .countdown-box { min-width: 48px; padding: 0.5rem 0.35rem; }
+      .countdown-num { font-size: 1.3rem; }
+      .bc-players { gap: 0.5rem; }
+      .bc-player-name { font-size: 0.85rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════ CONFETTI CANVAS ═══════ -->
+<canvas id="confetti-canvas"></canvas>
+
+<!-- ═══════════════════════════════════════════
+     NAVIGATION
+═══════════════════════════════════════════ -->
+<nav>
+  <div class="nav-inner">
+    <div class="nav-logo">👶 Ey Mann, wo is' mein Auto?</div>
+    <div class="nav-links">
+      <a href="#why">Warum?</a>
+      <a href="#autos">Die Autos</a>
+      <a href="#babycheck">⚔️ Duell</a>
+      <a href="#vergleich">Vergleich</a>
+      <a href="#quiz">Quiz starten</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ═══════════════════════════════════════════
+     HERO
+═══════════════════════════════════════════ -->
+<section id="hero">
+  <span class="hero-float">🚗</span>
+  <span class="hero-float">👶</span>
+  <span class="hero-float">🍼</span>
+
+  <div class="hero-inner">
+    <div class="hero-badge">👶 Direktübertragung aus dem Mutterleib — seit 9 Monaten</div>
+
+    <div class="hero-shout">
+      LEUTE.<br>ICH BRAUCHE<br>JETZT ENDLICH<br>EIN AUTO.
+    </div>
+    <p class="hero-shout-sub">— Euer Kind. Das in 20 Tagen kommt. Ob ihr wollt oder nicht.</p>
+
+    <div class="hero-gif-wrap">
+      <div class="tenor-gif-embed" data-postid="22312094" data-share-method="host" data-aspect-ratio="1.50943" data-width="100%">
+        <a href="https://tenor.com/view/yeah-baby-gif-22312094">Yeah Baby GIF</a>
+      </div>
+      <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
+    </div>
+
+    <h2 class="hero-title" style="margin-top:2rem;">
+      Liebe Mama <span>Annalisa</span>,<br>lieber Papa <span>Philipp</span>.
+    </h2>
+    <p class="hero-subtitle">Ihr hattet 9 Monate Zeit. NEUN. MONATE.</p>
+
+    <div class="hero-letter">
+      <p>Ich schreibe euch aus dem gemütlichsten, wenn auch etwas engen Zuhause, das ich je hatte.</p>
+      <p>In wenigen Tagen verlasse ich es — und <strong>ich hätte gerne ein Auto, das mich abholt.</strong> Nicht irgendein Auto. Ein schönes. Ein, das zeigt, dass ihr euch wenigstens kurz Gedanken gemacht habt. Ich mache mir schließlich auch Gedanken über euch.</p>
+      <p>Ich habe diese Website selbst gebaut. Mit meinen Fäusten. Zwischen Schluckauf-Pausen. Und Tritte-gegen-Mamas-Rippen.</p>
+      <p>Bitte. <strong>Entscheidet euch. Jetzt.</strong></p>
+      <p style="margin-top:1rem; font-size:0.9rem; opacity:0.7;">— Euer noch namenloses Kind 🐣</p>
+    </div>
+
+    <!-- Countdown -->
+    <div class="countdown-section">
+      <div class="countdown-label">⚠️ Kritische Zeit bis zur Ankunft</div>
+      <div class="countdown">
+        <div class="countdown-box">
+          <span class="countdown-num" id="cd-days">21</span>
+          <span class="countdown-unit">Tage</span>
+        </div>
+        <div class="countdown-box">
+          <span class="countdown-num" id="cd-hours">00</span>
+          <span class="countdown-unit">Stunden</span>
+        </div>
+        <div class="countdown-box">
+          <span class="countdown-num" id="cd-mins">00</span>
+          <span class="countdown-unit">Minuten</span>
+        </div>
+        <div class="countdown-box">
+          <span class="countdown-num" id="cd-secs">00</span>
+          <span class="countdown-unit">Sekunden</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stressmeter -->
+    <div class="stressmeter">
+      <div class="stressmeter-header">
+        <span class="stressmeter-label">🧘 Babys Stresslevel wegen eurer Unentschlossenheit</span>
+        <span class="stressmeter-value" id="stress-pct">73%</span>
+      </div>
+      <div class="stressmeter-bar">
+        <div class="stressmeter-fill" id="stress-fill" style="width:73%"></div>
+      </div>
+      <div class="stressmeter-emoji" id="stress-emoji">😤</div>
+    </div>
+
+    <div class="hero-cta">
+      <a href="#quiz" class="btn btn-primary">🎯 Jetzt Auto finden →</a>
+      <a href="#autos" class="btn btn-outline">🚗 Alle Autos ansehen</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     WHY SECTION
+═══════════════════════════════════════════ -->
+<section id="why" class="section">
+  <div class="container">
+    <div class="badge">Das Problem</div>
+    <h2 class="section-title" style="margin-top:1rem;">Warum das jetzt dringend ist</h2>
+    <p class="section-sub">Eine sachliche Analyse der Situation — von eurem Kind</p>
+
+    <div class="why-grid">
+      <div class="why-card reveal">
+        <div class="why-icon">🧳</div>
+        <h3>Der Kinderwagen-Dilemma</h3>
+        <p>Ein moderner Kinderwagen ist ca. 75 cm lang, 60 cm breit und 30 kg schwer — vollgepackt. Wer gedacht hat, er passt "schon irgendwie" ins Auto, war noch nie mit einem Säugling im Ikea. Der Kofferraum ist <em>alles</em>.</p>
+      </div>
+      <div class="why-card accent-red reveal" style="transition-delay:0.1s">
+        <div class="why-icon">🚐</div>
+        <h3>Ein Minivan ist KEINE Option</h3>
+        <p>Ich weiß, was ihr denkt. "Vielleicht doch ein Minivan?" NEIN. Ich möchte cool ankommen. Ich möchte, dass andere Babys neidisch sind. Bitte tut mir das nicht an. Ich bin noch nicht mal da und ich habe bereits eine Meinung dazu.</p>
+      </div>
+      <div class="why-card accent-blue reveal" style="transition-delay:0.2s">
+        <div class="why-icon">📅</div>
+        <h3>9 Monate. Vergeudet.</h3>
+        <p>Annalisa hatte 9 Monate. Philipp hatte 9 Monate. Selbst der VW Golf Variant braucht nur 6-8 Wochen Lieferzeit. Was zur Hölle habt ihr die ganze Zeit gemacht?! Ich meine, ich weiß was Mama gemacht hat. Aber Philipp?</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     AUTO SHOWCASE
+═══════════════════════════════════════════ -->
+<section id="autos" class="section">
+  <div class="container">
+    <div class="badge">Die Kandidaten</div>
+    <h2 class="section-title" style="margin-top:1rem;">6 Autos. Eines davon gehört euch.</h2>
+    <p class="section-sub">Sorgfältig ausgewählt von jemandem, der in 3 Wochen drin sitzen muss.</p>
+
+    <div class="cars-grid">
+
+      <!-- 1. VW Golf Sportsvan -->
+      <div class="car-card reveal">
+        <div class="car-img-wrap">
+          <img
+            src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/VW_Golf_Sportsvan_1.4_TSI_Highline_%28VII%29_%E2%80%93_Frontansicht%2C_6._Juli_2014%2C_D%C3%BCsseldorf.jpg/800px-VW_Golf_Sportsvan_1.4_TSI_Highline_%28VII%29_%E2%80%93_Frontansicht%2C_6._Juli_2014%2C_D%C3%BCsseldorf.jpg"
+            alt="VW Golf Sportsvan"
+            onerror="this.parentElement.innerHTML='<div class=\'car-img-fallback\'>🚗<br><small style=\'font-size:0.7rem;color:#999\'>VW Golf Sportsvan</small></div>'"
+          />
+          <div class="car-badge">500–590 L</div>
+        </div>
+        <div class="car-body">
+          <div class="car-tagline">Compact MPV · Nur noch gebraucht</div>
+          <div class="car-name">VW Golf Sportsvan</div>
+          <div class="car-price">💶 ca. <span>~12.000–22.000 €</span> (gebraucht)</div>
+          <div class="car-joke">"Weder Sport noch Van — beides und keins von beidem. Der Namenserfinder hat seitdem Karriere in der Politik gemacht."</div>
+          <div class="car-lists">
+            <div>
+              <div class="car-list-title pros">Vorteile</div>
+              <ul class="car-list pros">
+                <li>Erhöhte Sitzposition — sieht man Babys Gesicht im Spiegel</li>
+                <li>Flexible Sitzbank, mehr Platz</li>
+                <li>Preisgünstig gebraucht</li>
+                <li>VW-Qualität, vertrautes Gefühl</li>
+              </ul>
+            </div>
+            <div>
+              <div class="car-list-title cons">Nachteile</div>
+              <ul class="car-list cons">
+                <li>Seit 2020 nicht mehr produziert</li>
+                <li>Kein neues Modell mehr</li>
+                <li>Design etwas in die Jahre gekommen</li>
+              </ul>
+            </div>
+          </div>
+          <div class="car-boot">
+            <div class="car-boot-header">
+              <span class="car-boot-label">🧳 Kofferraum</span>
+              <span class="car-boot-vol">500–590 L</span>
+            </div>
+            <div class="boot-bar"><div class="boot-fill" style="width:32%"></div></div>
+          </div>
+          <div class="car-baby-comment">Ich sitze zwar höher, aber ich werde gefragt werden, was ein "Sportsvan" ist, und niemand weiß es. Auch mein Papa nicht.</div>
+        </div>
+      </div>
+
+      <!-- 2. VW Golf Variant -->
+      <div class="car-card reveal" style="transition-delay:0.1s">
+        <div class="car-img-wrap">
+          <img
+            src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/VW_Golf_Variant_VII_%28Facelift%29_%E2%80%93_Frontansicht%2C_9._Juni_2017%2C_D%C3%BCsseldorf.jpg/800px-VW_Golf_Variant_VII_%28Facelift%29_%E2%80%93_Frontansicht%2C_9._Juni_2017%2C_D%C3%BCsseldorf.jpg"
+            alt="VW Golf Variant"
+            onerror="this.parentElement.innerHTML='<div class=\'car-img-fallback\'>🚙<br><small style=\'font-size:0.7rem;color:#999\'>VW Golf Variant</small></div>'"
+          />
+          <div class="car-badge">611 L</div>
+        </div>
+        <div class="car-body">
+          <div class="car-tagline">Kombi · Der Klassiker</div>
+          <div class="car-name">VW Golf Variant</div>
+          <div class="car-price">💶 ca. <span>25.000–38.000 €</span> (neu) / ab 15.000 € (gebraucht)</div>
+          <div class="car-joke">"Das offizielle Auto des deutschen Erwachsenwerdens. Wer einen Golf Variant kauft, hat innerlich Frieden mit dem Erwachsensein gemacht."</div>
+          <div class="car-lists">
+            <div>
+              <div class="car-list-title pros">Vorteile</div>
+              <ul class="car-list pros">
+                <li>611 L Kofferraum — riesig für einen Golf</li>
+                <li>Flader Laderaum, perfekt für Kinderwagen</li>
+                <li>Stabiler Wiederverkaufswert</li>
+                <li>Made in Germany (™)</li>
+              </ul>
+            </div>
+            <div>
+              <div class="car-list-title cons">Nachteile</div>
+              <ul class="car-list cons">
+                <li>Teurer als Konkurrenten mit mehr Platz</li>
+                <li>Das Golf-Basis-Prestige kostet extra</li>
+                <li>Etwas langweilig — aber ehrenwert</li>
+              </ul>
+            </div>
+          </div>
+          <div class="car-boot">
+            <div class="car-boot-header">
+              <span class="car-boot-label">🧳 Kofferraum</span>
+              <span class="car-boot-vol">611 L</span>
+            </div>
+            <div class="boot-bar"><div class="boot-fill" style="width:38%"></div></div>
+          </div>
+          <div class="car-baby-comment">Solide. Zuverlässig. Wie Papa beim dritten Kaffee. Ich hätte nichts dagegen.</div>
+        </div>
+      </div>
+
+      <!-- 3. Skoda Octavia Combi -->
+      <div class="car-card reveal" style="transition-delay:0.2s">
+        <div class="car-img-wrap">
+          <img
+            src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/Skoda_Octavia_IV_Combi_%28facelift%2C_2024%29%2C_front_8.22.jpg/800px-Skoda_Octavia_IV_Combi_%28facelift%2C_2024%29%2C_front_8.22.jpg"
+            alt="Skoda Octavia Combi"
+            onerror="this.parentElement.innerHTML='<div class=\'car-img-fallback\'>🚗<br><small style=\'font-size:0.7rem;color:#999\'>Skoda Octavia Combi</small></div>'"
+          />
+          <div class="car-badge">640 L ⭐</div>
+        </div>
+        <div class="car-body">
+          <div class="car-tagline">Kombi · Bester Wert · Empfohlen 🏆</div>
+          <div class="car-name">Skoda Octavia Combi</div>
+          <div class="car-price">💶 ca. <span>27.000–40.000 €</span> (neu) / ab 16.000 € (gebraucht)</div>
+          <div class="car-joke">"Der VW, der keiner sein darf, aber einer ist. Gleiches Werk, gleiche Teile, weniger Aufkleber — und trotzdem billiger. Skoda-Fahrer sind entweder schlau oder sie haben es einfach noch nicht begriffen."</div>
+          <div class="car-lists">
+            <div>
+              <div class="car-list-title pros">Vorteile</div>
+              <ul class="car-list pros">
+                <li>640 L — mehr als ein Audi A6!</li>
+                <li>Mehr Beinraum hinten als Golf</li>
+                <li>5-Sterne Euro NCAP Sicherheit</li>
+                <li>Bestes Preis-Leistungs-Verhältnis</li>
+              </ul>
+            </div>
+            <div>
+              <div class="car-list-title cons">Nachteile</div>
+              <ul class="car-list cons">
+                <li>Manche finden "Skoda" nicht glamourös</li>
+                <li>Etwas sachlicheres Design</li>
+                <li>Basis-Innenausstattung eher nüchtern</li>
+              </ul>
+            </div>
+          </div>
+          <div class="car-boot">
+            <div class="car-boot-header">
+              <span class="car-boot-label">🧳 Kofferraum</span>
+              <span class="car-boot-vol">640 L</span>
+            </div>
+            <div class="boot-bar"><div class="boot-fill" style="width:40%"></div></div>
+          </div>
+          <div class="car-baby-comment">Mehr Platz für mich UND meinen Kinderwagen UND das Urlaubsgepäck? Ich bin für dieses Auto. Auch wenn Opa dann fragt "Hm, kein VW?"</div>
+        </div>
+      </div>
+
+      <!-- 4. Kia Ceed Sportswagon -->
+      <div class="car-card reveal" style="transition-delay:0.3s">
+        <div class="car-img-wrap">
+          <img
+            src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/Kia_Ceed_Sportswagon_%28CD%2C_facelift%2C_2021%29_front_8.22.jpg/800px-Kia_Ceed_Sportswagon_%28CD%2C_facelift%2C_2021%29_front_8.22.jpg"
+            alt="Kia Ceed Sportswagon"
+            onerror="this.parentElement.innerHTML='<div class=\'car-img-fallback\'>🚗<br><small style=\'font-size:0.7rem;color:#999\'>Kia Ceed SW</small></div>'"
+          />
+          <div class="car-badge">625 L</div>
+        </div>
+        <div class="car-body">
+          <div class="car-tagline">Kombi · Koreanischer Underdog</div>
+          <div class="car-name">Kia Ceed Sportswagon</div>
+          <div class="car-price">💶 ca. <span>24.000–34.000 €</span> (neu) / ab 13.000 € (gebraucht)</div>
+          <div class="car-joke">"Die koreanische Überraschung. Wer einen Kia kauft, schockiert zunächst die Verwandtschaft — und dann alle anderen, wenn er nach 200.000 km noch läuft."</div>
+          <div class="car-lists">
+            <div>
+              <div class="car-list-title pros">Vorteile</div>
+              <ul class="car-list pros">
+                <li>625 L Kofferraum + Versteckfach</li>
+                <li>7 Jahre Garantie — Baby dankt es euch</li>
+                <li>Günstiger als vergleichbare VWs</li>
+                <li>Überraschend gut ausgestattet</li>
+              </ul>
+            </div>
+            <div>
+              <div class="car-list-title cons">Nachteile</div>
+              <ul class="car-list cons">
+                <li>Kein deutsches Prestige-Label</li>
+                <li>Zu dritt im Fond wird eng</li>
+                <li>Weniger Fahrfreude als Golf</li>
+              </ul>
+            </div>
+          </div>
+          <div class="car-boot">
+            <div class="car-boot-header">
+              <span class="car-boot-label">🧳 Kofferraum</span>
+              <span class="car-boot-vol">625 L</span>
+            </div>
+            <div class="boot-bar"><div class="boot-fill" style="width:39%"></div></div>
+          </div>
+          <div class="car-baby-comment">7 Jahre Garantie! Das bin ich bis zur Grundschule. Ich finde das beruhigend. Philipp, du auch?</div>
+        </div>
+      </div>
+
+      <!-- 5. Toyota Corolla Touring Sports -->
+      <div class="car-card reveal" style="transition-delay:0.4s">
+        <div class="car-img-wrap">
+          <img
+            src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f2/2023_Toyota_Corolla_Touring_Sports_GR_Sport_1.8_Hybrid_%28Europe%29%2C_front_8.22.jpg/800px-2023_Toyota_Corolla_Touring_Sports_GR_Sport_1.8_Hybrid_%28Europe%29%2C_front_8.22.jpg"
+            alt="Toyota Corolla Touring Sports"
+            onerror="this.parentElement.innerHTML='<div class=\'car-img-fallback\'>🚗<br><small style=\'font-size:0.7rem;color:#999\'>Toyota Corolla TS</small></div>'"
+          />
+          <div class="car-badge">598 L</div>
+        </div>
+        <div class="car-body">
+          <div class="car-tagline">Hybrid Kombi · Für die Ewigkeit</div>
+          <div class="car-name">Toyota Corolla Touring Sports</div>
+          <div class="car-price">💶 ca. <span>29.000–40.000 €</span> (neu) / ab 18.000 € (gebraucht)</div>
+          <div class="car-joke">"Das Auto, das eure Enkel noch fahren werden. Toyota-Fahrer sind entweder Ingenieursgemüter oder Menschen, die nie wieder eine Werkstatt von innen sehen wollen — beide haben Recht."</div>
+          <div class="car-lists">
+            <div>
+              <div class="car-list-title pros">Vorteile</div>
+              <ul class="car-list pros">
+                <li>Hybrid — spart Sprit im Stadtverkehr</li>
+                <li>Legendäre Toyota-Zuverlässigkeit</li>
+                <li>Klappbarer Fond per Fernbedienung</li>
+                <li>Sehr guter Wiederverkaufswert</li>
+              </ul>
+            </div>
+            <div>
+              <div class="car-list-title cons">Nachteile</div>
+              <ul class="car-list cons">
+                <li>Teurer in der Anschaffung</li>
+                <li>Etwas steifes Fahrwerk</li>
+                <li>Weniger "deutsches" Image</li>
+              </ul>
+            </div>
+          </div>
+          <div class="car-boot">
+            <div class="car-boot-header">
+              <span class="car-boot-label">🧳 Kofferraum</span>
+              <span class="car-boot-vol">598 L</span>
+            </div>
+            <div class="boot-bar"><div class="boot-fill" style="width:37%"></div></div>
+          </div>
+          <div class="car-baby-comment">Hybrid! Mama schont die Umwelt — ich schone die Umwelt. Ein auto-ökologisches Teamwork. Und es läuft noch, wenn ich 30 bin.</div>
+        </div>
+      </div>
+
+      <!-- 6. Dacia Jogger -->
+      <div class="car-card reveal" style="transition-delay:0.5s">
+        <div class="car-img-wrap">
+          <img
+            src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/29/Dacia_Jogger_TCe_110_Extreme_SE_%282023%29_%28cropped%29.jpg/800px-Dacia_Jogger_TCe_110_Extreme_SE_%282023%29_%28cropped%29.jpg"
+            alt="Dacia Jogger"
+            onerror="this.parentElement.innerHTML='<div class=\'car-img-fallback\'>🚐<br><small style=\'font-size:0.7rem;color:#999\'>Dacia Jogger</small></div>'"
+          />
+          <div class="car-badge">696–1807 L</div>
+        </div>
+        <div class="car-body">
+          <div class="car-tagline">7-Sitzer · Für mutige Pragmatiker</div>
+          <div class="car-name">Dacia Jogger</div>
+          <div class="car-price">💶 ca. <span>18.000–24.000 €</span> (neu) — Europas günstigster 7-Sitzer</div>
+          <div class="car-joke">"Designt von Buchhaltern, geliebt von Pragmatikern. Der Dacia Jogger ist so günstig, dass man mit dem Ersparnis gleich den zweiten Kindersitz kaufen kann — und den dritten."</div>
+          <div class="car-lists">
+            <div>
+              <div class="car-list-title pros">Vorteile</div>
+              <ul class="car-list pros">
+                <li>7 echte Sitze — Geschwister einplanen!</li>
+                <li>Günstigster 7-Sitzer Europas</li>
+                <li>Bis zu 1807 L Kofferraum</li>
+                <li>Niedrige Unterhaltskosten</li>
+              </ul>
+            </div>
+            <div>
+              <div class="car-list-title cons">Nachteile</div>
+              <ul class="car-list cons">
+                <li>Mit allen Sitzen: nur 212 L Kofferraum</li>
+                <li>Spartanisches Interieur</li>
+                <li>Autobahn-Lärm etwas höher</li>
+              </ul>
+            </div>
+          </div>
+          <div class="car-boot">
+            <div class="car-boot-header">
+              <span class="car-boot-label">🧳 Max. Kofferraum</span>
+              <span class="car-boot-vol">696–1807 L</span>
+            </div>
+            <div class="boot-bar"><div class="boot-fill" style="width:100%"></div></div>
+          </div>
+          <div class="car-baby-comment">Grandioser Kofferraum. Aber mit mir, dem Kinderwagen, dem Gepäck UND der 3. Reihe... rechnet mal nach. (Hinweis: es geht nicht auf.)</div>
+        </div>
+      </div>
+
+    </div><!-- /cars-grid -->
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     BABY CHECK QUIZ
+═══════════════════════════════════════════ -->
+<section id="babycheck" class="section">
+  <div class="container">
+    <div class="badge" style="background:rgba(255,182,193,0.15);color:#ffb6c1;border:1px solid rgba(255,182,193,0.35);">⚔️ Duell</div>
+    <h2 class="section-title" style="margin-top:1rem;">Der Baby-Check</h2>
+    <p class="section-sub">Philipp vs. Annalisa — wer mehr weiß, darf das Auto aussuchen</p>
+
+    <div class="bc-container">
+
+      <!-- START SCREEN -->
+      <div class="bc-start-screen" id="bc-start">
+        <div class="bc-start-emoji">👶⚔️👶</div>
+        <h3>Bereit für die Elternprüfung?</h3>
+        <p>5 Fragen rund ums Neugeborene. Erst antwortet Philipp alleine — dann Annalisa. Wer mehr richtige Antworten hat, <strong style="color:var(--yellow)">darf das Auto aussuchen.</strong></p>
+        <p style="margin-top:0.5rem; color:rgba(255,255,255,0.4); font-size:0.85rem;">PS: Das Baby hat die Fragen gestellt. Und es weiß die Antworten bereits — es hat sie schließlich gelebt.</p>
+        <button class="bc-start-btn" onclick="bcStartPhilipp()">🎯 Philipp, du fängst an!</button>
+      </div>
+
+      <!-- SWITCH SCREEN -->
+      <div id="bc-switch" style="display:none; text-align:center; max-width:600px; margin:0 auto;">
+        <div style="font-size:3.5rem; margin-bottom:1rem;">🔄</div>
+        <h3 style="font-family:var(--font-heading); font-size:1.6rem; font-weight:800; color:var(--white); margin-bottom:0.75rem;" id="bc-switch-title">Philipps Runde vorbei!</h3>
+        <p style="color:rgba(255,255,255,0.6); margin-bottom:0.5rem;" id="bc-switch-text">Jetzt kommt Annalisa! Philipp, bitte wegschauen. Oder zumindest so tun als ob.</p>
+        <button class="bc-start-btn" onclick="bcStartAnnalisa()" style="margin-top:1.5rem;">👩 Annalisa, du bist dran!</button>
+      </div>
+
+      <!-- QUIZ AREA -->
+      <div id="bc-quiz-area" style="display:none;">
+        <!-- Scoreboard -->
+        <div class="bc-players" id="bc-scoreboard">
+          <div class="bc-player philipp" id="bc-p1-card">
+            <div class="bc-player-avatar">🧔</div>
+            <div class="bc-player-name">Philipp</div>
+            <div class="bc-player-score" id="bc-p1-display">0</div>
+            <div class="bc-player-label">/ 5 richtig</div>
+          </div>
+          <div class="bc-player annalisa" id="bc-p2-card">
+            <div class="bc-player-avatar">👩</div>
+            <div class="bc-player-name">Annalisa</div>
+            <div class="bc-player-score" id="bc-p2-display">0</div>
+            <div class="bc-player-label">/ 5 richtig</div>
+          </div>
+        </div>
+
+        <!-- Phase Banner -->
+        <div class="bc-phase-banner" id="bc-phase-banner">
+          <h3 id="bc-phase-title">🧔 Philipps Runde</h3>
+          <p id="bc-phase-sub">Annalisa schaut bitte weg. Oder zählt Schäfchen.</p>
+        </div>
+
+        <!-- Progress -->
+        <div class="bc-progress-wrap">
+          <div class="bc-progress-header">
+            <span class="bc-progress-label">Frage <span id="bc-q-current">1</span> von 5</span>
+            <span class="bc-progress-count" id="bc-q-label">Frage 1</span>
+          </div>
+          <div class="bc-progress-bar">
+            <div class="bc-progress-fill" id="bc-progress" style="width:20%"></div>
+          </div>
+        </div>
+
+        <!-- Q1 -->
+        <div class="bc-card active" data-bc="0">
+          <div class="bc-q-num">Frage 1 / 5</div>
+          <div class="bc-question">Wie oft muss ein Neugeborenes in 24 Stunden gefüttert werden?</div>
+          <div class="bc-baby-hint">Ich frage für einen Freund. Dieser Freund bin ich.</div>
+          <div class="bc-options">
+            <button class="bc-option" data-correct="false">3–4 Mal — Babys brauchen nicht viel</button>
+            <button class="bc-option" data-correct="false">6–8 Mal — so ungefähr alle 3–4 Stunden</button>
+            <button class="bc-option" data-correct="true">8–12 Mal — alle 2–3 Stunden, Tag und Nacht</button>
+            <button class="bc-option" data-correct="false">Nur wenn es weint — "demand feeding" eben</button>
+          </div>
+          <div class="bc-feedback" id="bc-fb-0"></div>
+          <button class="bc-next-btn" id="bc-next-0">Weiter →</button>
+        </div>
+
+        <!-- Q2 -->
+        <div class="bc-card" data-bc="1">
+          <div class="bc-q-num">Frage 2 / 5</div>
+          <div class="bc-question">Welche Wassertemperatur ist ideal für das erste Babybad?</div>
+          <div class="bc-baby-hint">Ich möchte weder gesiedet noch erkältet werden. Danke im Voraus.</div>
+          <div class="bc-options">
+            <button class="bc-option" data-correct="false">30°C — lieber etwas kühler, das ist gesund</button>
+            <button class="bc-option" data-correct="true">37°C — Körpertemperatur, schön warm</button>
+            <button class="bc-option" data-correct="false">42°C — Wärme ist gut für Babys</button>
+            <button class="bc-option" data-correct="false">Hauptsache nicht kalt — Gefühl reicht</button>
+          </div>
+          <div class="bc-feedback" id="bc-fb-1"></div>
+          <button class="bc-next-btn" id="bc-next-1">Weiter →</button>
+        </div>
+
+        <!-- Q3 -->
+        <div class="bc-card" data-bc="2">
+          <div class="bc-q-num">Frage 3 / 5</div>
+          <div class="bc-question">Wie viele Stunden schläft ein Neugeborenes ungefähr pro Tag?</div>
+          <div class="bc-baby-hint">Spoiler: viel. Leider nicht dann, wenn ihr wollt.</div>
+          <div class="bc-options">
+            <button class="bc-option" data-correct="false">8–10 Stunden — wie ein normaler Mensch</button>
+            <button class="bc-option" data-correct="false">12–14 Stunden — halben Tag in Ruhe</button>
+            <button class="bc-option" data-correct="true">16–18 Stunden — fast den ganzen Tag, aber nie am Stück</button>
+            <button class="bc-option" data-correct="false">Gar nicht — das fühlt sich zumindest so an</button>
+          </div>
+          <div class="bc-feedback" id="bc-fb-2"></div>
+          <button class="bc-next-btn" id="bc-next-2">Weiter →</button>
+        </div>
+
+        <!-- Q4 -->
+        <div class="bc-card" data-bc="3">
+          <div class="bc-q-num">Frage 4 / 5</div>
+          <div class="bc-question">Was bedeutet "Rooming-in" in der Geburtsklinik?</div>
+          <div class="bc-baby-hint">Das ist kein Ikea-Modell.</div>
+          <div class="bc-options">
+            <button class="bc-option" data-correct="false">Ein Extrazimmer für Besucher der frisch gebackenen Eltern</button>
+            <button class="bc-option" data-correct="true">Baby und Mutter schlafen gemeinsam im selben Zimmer</button>
+            <button class="bc-option" data-correct="false">Ein Sonderangebot für Väter mit eigenem Bett</button>
+            <button class="bc-option" data-correct="false">Der Name des Frühstücksraums — sehr praktisch</button>
+          </div>
+          <div class="bc-feedback" id="bc-fb-3"></div>
+          <button class="bc-next-btn" id="bc-next-3">Weiter →</button>
+        </div>
+
+        <!-- Q5 -->
+        <div class="bc-card" data-bc="4">
+          <div class="bc-q-num">Frage 5 / 5 — Finalsrage!</div>
+          <div class="bc-question">Was misst der Apgar-Score direkt nach der Geburt?</div>
+          <div class="bc-baby-hint">Ich werde bewertet, noch bevor ich meinen ersten Schrei getan habe. Das Leben.</div>
+          <div class="bc-options">
+            <button class="bc-option" data-correct="false">Die Bewertung des Krankenhauses (wie Tripadvisor)</button>
+            <button class="bc-option" data-correct="false">Die Blutgruppe des Babys</button>
+            <button class="bc-option" data-correct="true">Den Gesundheitszustand des Babys (Herzschlag, Atmung, Reflexe, Farbe, Muskeltonus)</button>
+            <button class="bc-option" data-correct="false">Ein Witz, den nur Hebammen verstehen</button>
+          </div>
+          <div class="bc-feedback" id="bc-fb-4"></div>
+          <button class="bc-next-btn" id="bc-next-4">Ergebnis anzeigen 🎯</button>
+        </div>
+
+      </div><!-- /bc-quiz-area -->
+
+      <!-- RESULT SCREEN -->
+      <div class="bc-result-screen" id="bc-result">
+        <div class="bc-result-trophy" id="bc-trophy">🏆</div>
+        <div class="bc-result-winner" id="bc-winner-text">...</div>
+        <div class="bc-result-scores" id="bc-scores-display">
+          <div class="bc-score-box" id="bc-p1-result-box">
+            <div class="bc-score-big" id="bc-p1-final">0</div>
+            <div class="bc-score-name">🧔 Philipp</div>
+          </div>
+          <div class="bc-score-box" id="bc-p2-result-box">
+            <div class="bc-score-big" id="bc-p2-final">0</div>
+            <div class="bc-score-name">👩 Annalisa</div>
+          </div>
+        </div>
+        <div class="bc-baby-verdict" id="bc-verdict"></div>
+        <button class="bc-restart-btn" onclick="bcRestart()">↩ Nochmal spielen</button>
+      </div>
+
+    </div><!-- /bc-container -->
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     COMPARISON TABLE
+═══════════════════════════════════════════ -->
+<section id="vergleich" class="section">
+  <div class="container">
+    <div class="badge">Vergleich</div>
+    <h2 class="section-title" style="margin-top:1rem;">Alle Autos auf einen Blick</h2>
+    <p class="section-sub">Damit Philipp und Annalisa keine Ausrede mehr haben.</p>
+
+    <div class="table-wrap reveal">
+      <table>
+        <thead>
+          <tr>
+            <th>Modell</th>
+            <th>Kofferraum</th>
+            <th>Preis (neu)</th>
+            <th>Familientauglichkeit</th>
+            <th>Baby-Wertung</th>
+            <th>Spaßfaktor</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>VW Golf Sportsvan</td>
+            <td>500–590 L</td>
+            <td>nur gebraucht</td>
+            <td><span class="stars">★★★★</span>☆</td>
+            <td><span class="stars">★★★</span>☆☆</td>
+            <td><span class="stars">★★★</span>☆☆</td>
+          </tr>
+          <tr>
+            <td>VW Golf Variant</td>
+            <td>611 L</td>
+            <td>~25–38 T€</td>
+            <td><span class="stars">★★★★</span>☆</td>
+            <td><span class="stars">★★★★</span>☆</td>
+            <td><span class="stars">★★★</span>☆☆</td>
+          </tr>
+          <tr class="highlight-row">
+            <td>⭐ Skoda Octavia Combi</td>
+            <td>640 L</td>
+            <td>~27–40 T€</td>
+            <td><span class="stars">★★★★★</span></td>
+            <td><span class="stars">★★★★★</span></td>
+            <td><span class="stars">★★★★</span>☆</td>
+          </tr>
+          <tr>
+            <td>Kia Ceed Sportswagon</td>
+            <td>625 L</td>
+            <td>~24–34 T€</td>
+            <td><span class="stars">★★★★</span>☆</td>
+            <td><span class="stars">★★★★</span>☆</td>
+            <td><span class="stars">★★★</span>☆☆</td>
+          </tr>
+          <tr>
+            <td>Toyota Corolla TS</td>
+            <td>598 L</td>
+            <td>~29–40 T€</td>
+            <td><span class="stars">★★★★</span>☆</td>
+            <td><span class="stars">★★★★</span>☆</td>
+            <td><span class="stars">★★★</span>☆☆</td>
+          </tr>
+          <tr>
+            <td>Dacia Jogger</td>
+            <td>bis 1807 L</td>
+            <td>~18–24 T€</td>
+            <td><span class="stars">★★★★</span>☆</td>
+            <td><span class="stars">★★★</span>☆☆</td>
+            <td><span class="stars">★★</span>☆☆☆</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="table-note">⭐ Beste Gesamtempfehlung · Familienstar-Wertung nach Kofferraum, Sicherheit, Preis-Leistung und Baby-Akzeptanz</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     QUIZ
+═══════════════════════════════════════════ -->
+<section id="quiz" class="section">
+  <div class="container">
+    <div class="badge" style="background:rgba(245,200,66,0.15);color:var(--yellow);border:1px solid rgba(245,200,66,0.3);">Entscheidungshilfe</div>
+    <h2 class="section-title">Das große Familienauto-Quiz</h2>
+    <p class="section-sub">7 ehrliche Fragen. 1 ehrliche Empfehlung. Endlich.</p>
+
+    <div class="quiz-container">
+      <div class="quiz-progress-wrap">
+        <div class="quiz-progress-header">
+          <span class="quiz-progress-label">Frage <span id="q-current">1</span> von 7</span>
+          <span class="quiz-progress-count" id="q-label">Frage 1</span>
+        </div>
+        <div class="quiz-progress-bar">
+          <div class="quiz-progress-fill" id="q-progress" style="width:14%"></div>
+        </div>
+      </div>
+
+      <!-- Q1 -->
+      <div class="quiz-card active" data-q="0">
+        <div class="quiz-question-num">Frage 1 / 7</div>
+        <div class="quiz-question">Wie viele Koffer packt ihr für eine Woche Urlaub?</div>
+        <div class="quiz-subtext">Annalisa, Philipp, ihr dürft auch getrennt antworten. Dann zusammenzählen.</div>
+        <div class="quiz-options">
+          <button class="quiz-option" data-scores='{"space":0,"eco":0,"brand":0,"budget":1,"future":0}'>
+            <span class="quiz-option-emoji">🎒</span>Wenig — wir reisen leicht (Rucksack-Crew)
+          </button>
+          <button class="quiz-option" data-scores='{"space":1,"eco":0,"brand":0,"budget":0,"future":0}'>
+            <span class="quiz-option-emoji">🧳</span>Mittel — so 2 Koffer plus Handgepäck
+          </button>
+          <button class="quiz-option" data-scores='{"space":2,"eco":0,"brand":0,"budget":0,"future":0}'>
+            <span class="quiz-option-emoji">🧳🧳</span>Viel — wir brauchen den halben Kofferraum schon für Mamas Schuhe
+          </button>
+          <button class="quiz-option" data-scores='{"space":3,"eco":0,"brand":0,"budget":0,"future":1}'>
+            <span class="quiz-option-emoji">🚂</span>Ein ganzer Zug wäre angemessen — wir reisen wie Könige
+          </button>
+        </div>
+        <button class="quiz-next-btn" id="next-0">Nächste Frage →</button>
+      </div>
+
+      <!-- Q2 -->
+      <div class="quiz-card" data-q="1">
+        <div class="quiz-question-num">Frage 2 / 7</div>
+        <div class="quiz-question">Plant ihr noch mehr Kinder nach mir?</div>
+        <div class="quiz-subtext">Ich frage für die Geschwisterplanung. Und weil Platz endlich ist.</div>
+        <div class="quiz-options">
+          <button class="quiz-option" data-scores='{"space":0,"eco":1,"brand":1,"budget":0,"future":0}'>
+            <span class="quiz-option-emoji">🙅</span>Nein danke — ich bin genug
+          </button>
+          <button class="quiz-option" data-scores='{"space":1,"eco":0,"brand":0,"budget":0,"future":1}'>
+            <span class="quiz-option-emoji">🤔</span>Vielleicht noch eins — schauen wir mal
+          </button>
+          <button class="quiz-option" data-scores='{"space":2,"eco":0,"brand":0,"budget":1,"future":2}'>
+            <span class="quiz-option-emoji">👨‍👩‍👧‍👦</span>Mindestens zwei — wir wollen eine echte Familie
+          </button>
+          <button class="quiz-option" data-scores='{"space":3,"eco":0,"brand":0,"budget":2,"future":3}'>
+            <span class="quiz-option-emoji">🏟️</span>Wir spielen Duggar-Familie — Minibus bitte... oh warte
+          </button>
+        </div>
+        <button class="quiz-next-btn" id="next-1">Nächste Frage →</button>
+      </div>
+
+      <!-- Q3 -->
+      <div class="quiz-card" data-q="2">
+        <div class="quiz-question-num">Frage 3 / 7</div>
+        <div class="quiz-question">Habt ihr einen Hund — oder plant ihr einen?</div>
+        <div class="quiz-subtext">Ich akzeptiere keinen Hund, der mehr Aufmerksamkeit bekommt als ich. Aber Platz muss trotzdem sein.</div>
+        <div class="quiz-options">
+          <button class="quiz-option" data-scores='{"space":0,"eco":1,"brand":1,"budget":0,"future":0}'>
+            <span class="quiz-option-emoji">🙅</span>Nein — nur ich bin genug Chaos
+          </button>
+          <button class="quiz-option" data-scores='{"space":1,"eco":0,"brand":0,"budget":0,"future":0}'>
+            <span class="quiz-option-emoji">🐕</span>Ja, ein kleiner Hund (passt auch in Handtasche)
+          </button>
+          <button class="quiz-option" data-scores='{"space":2,"eco":0,"brand":0,"budget":0,"future":1}'>
+            <span class="quiz-option-emoji">🐕‍🦺</span>Ja, ein großer Labrador — der fährt auch immer mit
+          </button>
+          <button class="quiz-option" data-scores='{"space":3,"eco":0,"brand":0,"budget":1,"future":1}'>
+            <span class="quiz-option-emoji">🐾</span>Mehrere Tiere — wir sind eine Art Bauernhof
+          </button>
+        </div>
+        <button class="quiz-next-btn" id="next-2">Nächste Frage →</button>
+      </div>
+
+      <!-- Q4 -->
+      <div class="quiz-card" data-q="3">
+        <div class="quiz-question-num">Frage 4 / 7</div>
+        <div class="quiz-question">Was ist euch am wichtigsten beim Auto?</div>
+        <div class="quiz-subtext">Ich frage, weil ich auch mal mitfahren möchte. Und schreien. Auf der Autobahn.</div>
+        <div class="quiz-options">
+          <button class="quiz-option" data-scores='{"space":0,"eco":3,"brand":0,"budget":0,"future":0}'>
+            <span class="quiz-option-emoji">🌿</span>Sparsam & umweltfreundlich — Hybrid/wenig Verbrauch
+          </button>
+          <button class="quiz-option" data-scores='{"space":0,"eco":0,"brand":2,"budget":0,"future":0}'>
+            <span class="quiz-option-emoji">🏎️</span>Fahrspaß — es soll Freude machen, damit zu fahren
+          </button>
+          <button class="quiz-option" data-scores='{"space":3,"eco":0,"brand":0,"budget":0,"future":1}'>
+            <span class="quiz-option-emoji">📦</span>Platz, Platz, Platz — der Kofferraum ist König
+          </button>
+          <button class="quiz-option" data-scores='{"space":1,"eco":0,"brand":0,"budget":3,"future":1}'>
+            <span class="quiz-option-emoji">💸</span>Günstiger Kaufpreis — wir haben gerade ein Kind bekommen
+          </button>
+        </div>
+        <button class="quiz-next-btn" id="next-3">Nächste Frage →</button>
+      </div>
+
+      <!-- Q5 -->
+      <div class="quiz-card" data-q="4">
+        <div class="quiz-question-num">Frage 5 / 7</div>
+        <div class="quiz-question">Wo wohnt ihr hauptsächlich?</div>
+        <div class="quiz-subtext">Parkhäuser vs. Feldwege — wichtig für die Entscheidung. Auch für mich.</div>
+        <div class="quiz-options">
+          <button class="quiz-option" data-scores='{"space":0,"eco":2,"brand":1,"budget":0,"future":0}'>
+            <span class="quiz-option-emoji">🏙️</span>Stadt — Parkhaus, enge Straßen, alles auf Fahrrad-Distanz
+          </button>
+          <button class="quiz-option" data-scores='{"space":1,"eco":1,"brand":1,"budget":0,"future":0}'>
+            <span class="quiz-option-emoji">🏘️</span>Vorstadt / Kleinststadt — Mittelweg, alles irgendwie
+          </button>
+          <button class="quiz-option" data-scores='{"space":2,"eco":0,"brand":0,"budget":1,"future":1}'>
+            <span class="quiz-option-emoji">🌾</span>Land — weite Wege, Einkauf nur einmal die Woche
+          </button>
+          <button class="quiz-option" data-scores='{"space":1,"eco":1,"brand":0,"budget":1,"future":0}'>
+            <span class="quiz-option-emoji">🚆</span>Beides — wir pendeln, das Auto muss vielseitig sein
+          </button>
+        </div>
+        <button class="quiz-next-btn" id="next-4">Nächste Frage →</button>
+      </div>
+
+      <!-- Q6 -->
+      <div class="quiz-card" data-q="5">
+        <div class="quiz-question-num">Frage 6 / 7</div>
+        <div class="quiz-question">Wie wichtig ist euch die Marke?</div>
+        <div class="quiz-subtext">Opa fragt, was im Hof steht. Ich frage, wer mich stilsicher durch die Gegend fährt.</div>
+        <div class="quiz-options">
+          <button class="quiz-option" data-scores='{"space":0,"eco":0,"brand":3,"budget":0,"future":0}'>
+            <span class="quiz-option-emoji">🇩🇪</span>VW/Deutsch muss es sein — Opa würde sonst reden
+          </button>
+          <button class="quiz-option" data-scores='{"space":1,"eco":0,"brand":1,"budget":0,"future":0}'>
+            <span class="quiz-option-emoji">👍</span>Hauptsache solide und bewährt
+          </button>
+          <button class="quiz-option" data-scores='{"space":2,"eco":0,"brand":0,"budget":1,"future":0}'>
+            <span class="quiz-option-emoji">🤷</span>Egal — Hauptsache Platz und gute Ausstattung
+          </button>
+          <button class="quiz-option" data-scores='{"space":1,"eco":0,"brand":0,"budget":3,"future":1}'>
+            <span class="quiz-option-emoji">💰</span>Budget first — Hauptsache günstig und zuverlässig
+          </button>
+        </div>
+        <button class="quiz-next-btn" id="next-5">Nächste Frage →</button>
+      </div>
+
+      <!-- Q7 -->
+      <div class="quiz-card" data-q="6">
+        <div class="quiz-question-num">Frage 7 / 7 — Die finale Frage</div>
+        <div class="quiz-question">Ein Minivan wäre für euch...?</div>
+        <div class="quiz-subtext">Ich habe diese Frage mit zitternden Fäusten gestellt. Denkt gut nach.</div>
+        <div class="quiz-options">
+          <button class="quiz-option" data-scores='{"space":0,"eco":0,"brand":2,"budget":0,"future":0}' data-minivan="no">
+            <span class="quiz-option-emoji">🚫</span>Absolutes No-Go — niemals, unter keinen Umständen
+          </button>
+          <button class="quiz-option" data-scores='{"space":2,"eco":0,"brand":0,"budget":0,"future":2}' data-minivan="maybe">
+            <span class="quiz-option-emoji">😬</span>Na ja, wenn's unbedingt sein muss... vielleicht
+          </button>
+          <button class="quiz-option" data-scores='{"space":3,"eco":0,"brand":0,"budget":1,"future":3}' data-minivan="yes">
+            <span class="quiz-option-emoji">😊</span>Ehrlich gesagt gar nicht so schlecht
+          </button>
+        </div>
+        <div id="minivan-warning" style="display:none; margin-top:1rem; background:rgba(255,107,107,0.15); border:1px solid rgba(255,107,107,0.4); border-radius:8px; padding:1rem; color:#ff9999; font-size:0.9rem;">
+          👶 <strong>NEIN.</strong> Ich bin euer Kind, nicht euer Urteil über euren Lifestyle. Ein Minivan ist für Menschen, die aufgegeben haben. IHR habt nicht aufgegeben. Ich vertraue euch. Weitermachen.
+        </div>
+        <button class="quiz-next-btn" id="next-6">🎯 Ergebnis anzeigen!</button>
+      </div>
+
+    </div><!-- /quiz-container -->
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     RESULT
+═══════════════════════════════════════════ -->
+<section id="result" class="section">
+  <div class="container">
+    <div class="result-container">
+      <div class="result-badge">🎉 Das Urteil ist gesprochen</div>
+      <h2 class="result-title" id="result-title">Euer Auto ist...</h2>
+      <p class="result-subtitle" id="result-subtitle">Nach sorgfältiger Analyse eurer Antworten hat das Baby entschieden.</p>
+
+      <div class="result-car">
+        <div id="result-img-wrap">
+          <div class="result-car-img-fallback" id="result-fallback">🚗</div>
+        </div>
+        <div class="result-car-body">
+          <div class="result-car-name" id="result-car-name">Lädt...</div>
+          <div class="result-car-why" id="result-car-why"></div>
+          <div class="result-baby-reaction" id="result-baby-reaction"></div>
+        </div>
+      </div>
+
+      <div class="result-actions">
+        <button class="btn-restart" onclick="restartQuiz()">↩ Nochmal machen</button>
+        <button class="btn-whatsapp" id="whatsapp-btn">📲 Mit Philipp/Annalisa teilen</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     FOOTER
+═══════════════════════════════════════════ -->
+<footer>
+  <div class="footer-baby">👶</div>
+  <p>
+    <strong>© 2026 · Euer noch-namenloses Kind</strong><br>
+    Geburtsdatum: voraussichtlich 24. März 2026 · Wartezeit auf ein Auto: schon zu lange<br>
+    <em>"Bitte. Ich bitte euch. BITTE. Entscheidet euch."</em><br><br>
+    <span style="font-size:0.8rem; opacity:0.6;">Diese Website wurde zwischen Schluckauf-Attacken und Tritten gegen Mamas Rippen programmiert.<br>Technischer Support: nicht verfügbar (bin beschäftigt mit Wachsen).</span>
+  </p>
+</footer>
+
+<!-- ═══════════════════════════════════════════
+     JAVASCRIPT
+═══════════════════════════════════════════ -->
+<script>
+  /* ───────────────────────────────────────────
+     COUNTDOWN TIMER
+  ─────────────────────────────────────────── */
+  const TARGET_DATE = new Date('2026-03-24T09:00:00');
+
+  function updateCountdown() {
+    const now = new Date();
+    const diff = TARGET_DATE - now;
+
+    if (diff <= 0) {
+      document.getElementById('cd-days').textContent = '00';
+      document.getElementById('cd-hours').textContent = '00';
+      document.getElementById('cd-mins').textContent = '00';
+      document.getElementById('cd-secs').textContent = '00';
+      return;
+    }
+
+    const days    = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours   = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+    document.getElementById('cd-days').textContent  = String(days).padStart(2, '0');
+    document.getElementById('cd-hours').textContent = String(hours).padStart(2, '0');
+    document.getElementById('cd-mins').textContent  = String(minutes).padStart(2, '0');
+    document.getElementById('cd-secs').textContent  = String(seconds).padStart(2, '0');
+
+    // Update stressmeter based on days remaining
+    updateStressmeter(days);
+  }
+
+  function updateStressmeter(daysLeft) {
+    // 280 days = start, 0 days = max stress
+    const maxDays = 280;
+    const stressPct = Math.min(100, Math.round(((maxDays - daysLeft) / maxDays) * 100));
+    document.getElementById('stress-pct').textContent = stressPct + '%';
+    document.getElementById('stress-fill').style.width = stressPct + '%';
+
+    let emoji = '😌';
+    if (stressPct > 85) emoji = '🤯';
+    else if (stressPct > 70) emoji = '😤';
+    else if (stressPct > 50) emoji = '😠';
+    else if (stressPct > 30) emoji = '😟';
+    document.getElementById('stress-emoji').textContent = emoji;
+  }
+
+  setInterval(updateCountdown, 1000);
+  updateCountdown();
+
+  /* ───────────────────────────────────────────
+     SCROLL REVEAL
+  ─────────────────────────────────────────── */
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  /* ───────────────────────────────────────────
+     QUIZ LOGIC
+  ─────────────────────────────────────────── */
+  let currentQuestion = 0;
+  let scores = { space: 0, eco: 0, brand: 0, budget: 0, future: 0 };
+
+  const questionCards = document.querySelectorAll('.quiz-card');
+  const totalQuestions = questionCards.length;
+
+  // Car data for results
+  const CAR_DATA = {
+    sportsvan: {
+      name: 'VW Golf Sportsvan',
+      emoji: '🚗',
+      imgSrc: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/VW_Golf_Sportsvan_1.4_TSI_Highline_%28VII%29_%E2%80%93_Frontansicht%2C_6._Juli_2014%2C_D%C3%BCsseldorf.jpg/800px-VW_Golf_Sportsvan_1.4_TSI_Highline_%28VII%29_%E2%80%93_Frontansicht%2C_6._Juli_2014%2C_D%C3%BCsseldorf.jpg',
+      why: 'Ihr seid ein Team, das VW liebt, in der Stadt lebt und keinen riesigen Kofferraum braucht. Der Golf Sportsvan gibt euch eine erhöhte Sitzposition, flexible Innenraumgestaltung und VW-Qualität — alles zu einem fairen Gebrauchtpreis.',
+      baby: 'Na gut. Ich sitze höher, kann aus dem Fenster schauen und Mama sieht mein Gesicht im Spiegel. Das ist eigentlich... ganz okay. Aber bitte keine "Sportsvan"-Witze vor meinen Freunden.'
+    },
+    variant: {
+      name: 'VW Golf Variant',
+      emoji: '🚙',
+      imgSrc: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/VW_Golf_Variant_VII_%28Facelift%29_%E2%80%93_Frontansicht%2C_9._Juni_2017%2C_D%C3%BCsseldorf.jpg/800px-VW_Golf_Variant_VII_%28Facelift%29_%E2%80%93_Frontansicht%2C_9._Juni_2017%2C_D%C3%BCsseldorf.jpg',
+      why: 'Ihr schätzt Qualität, Marke und ein gutes Gesamtpaket. Der Golf Variant ist der perfekte Erwachsenen-Kombi: 611 Liter Kofferraum, solider Wiederverkaufswert und VW-Prestige. Opa ist zufrieden. Das Baby auch.',
+      baby: 'Ja. Das hier. Das ist mein Auto. Solide, verlässlich, deutsch. Wie Papa — außer dass der Golf pünktlich kommt.'
+    },
+    octavia: {
+      name: 'Skoda Octavia Combi',
+      emoji: '⭐',
+      imgSrc: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/Skoda_Octavia_IV_Combi_%28facelift%2C_2024%29%2C_front_8.22.jpg/800px-Skoda_Octavia_IV_Combi_%28facelift%2C_2024%29%2C_front_8.22.jpg',
+      why: 'Herzlichen Glückwunsch — ihr habt die klügste Wahl getroffen! Der Skoda Octavia Combi ist der Geheimtipp unter den Familienkombis: 640 Liter Kofferraum, 5-Sterne Euro NCAP, mehr Beinraum als ein Golf und das alles zu einem günstigeren Preis. Gleiches Werk, gleiches Fahrwerk wie VW.',
+      baby: 'DAS. Ich habe 9 Monate auf diesen Moment gewartet. 640 Liter! Da passen mein Kinderwagen, das Urlaubsgepäck UND Mamas Handtasche rein. Ich bin stolz auf euch. Endlich.'
+    },
+    ceed: {
+      name: 'Kia Ceed Sportswagon',
+      emoji: '🚗',
+      imgSrc: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/Kia_Ceed_Sportswagon_%28CD%2C_facelift%2C_2021%29_front_8.22.jpg/800px-Kia_Ceed_Sportswagon_%28CD%2C_facelift%2C_2021%29_front_8.22.jpg',
+      why: 'Budget-bewusst und trotzdem nicht knausrig — das ist der Kia Ceed. 625 Liter Kofferraum, 7 Jahre Garantie und eine Ausstattung, die deutlich teurere Konkurrenten alt aussehen lässt. Das Geld, das ihr spart, investiert ihr in meine Ausbildung. Ich weiß es.',
+      baby: '7 Jahre Garantie. Das bedeutet, das Auto ist noch zuverlässig, wenn ich in die Grundschule gehe. Das ist... eigentlich sehr vorausschauend von euch. Ich bin positiv überrascht.'
+    },
+    corolla: {
+      name: 'Toyota Corolla Touring Sports',
+      emoji: '🌿',
+      imgSrc: 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f2/2023_Toyota_Corolla_Touring_Sports_GR_Sport_1.8_Hybrid_%28Europe%29%2C_front_8.22.jpg/800px-2023_Toyota_Corolla_Touring_Sports_GR_Sport_1.8_Hybrid_%28Europe%29%2C_front_8.22.jpg',
+      why: 'Nachhaltigkeit, Zuverlässigkeit und Langlebigkeit stehen bei euch ganz oben. Der Toyota Corolla Touring Sports mit Hybrid ist ideal: wenig Verbrauch im Stadtverkehr, legendäre Zuverlässigkeit und ein Auto, das ehrlich gesagt noch läuft, wenn ich selbst Kinder habe.',
+      baby: 'Hybrid! Ich wachse auf einem Planeten auf, der mir noch ein paar Jahre gönnen soll. Danke, Mama und Papa. Das war weise. Ihr habt mich gerettet. Und die Umwelt.'
+    },
+    jogger: {
+      name: 'Dacia Jogger',
+      emoji: '🚐',
+      imgSrc: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/29/Dacia_Jogger_TCe_110_Extreme_SE_%282023%29_%28cropped%29.jpg/800px-Dacia_Jogger_TCe_110_Extreme_SE_%282023%29_%28cropped%29.jpg',
+      why: 'Ihr plant groß! Familie, Geschwister, vielleicht ein Hund — der Dacia Jogger ist Europas günstigster 7-Sitzer und bietet flexiblen Raum für alles, was die Zukunft bringt. Pragmatisch, bezahlbar, und mit unglaublichem Maximalvolumen.',
+      baby: 'Gut. Ich akzeptiere das. Aber wenn Geschwister einziehen, MÖCHTE ICH EINEN EIGENEN SITZ. Nicht die Ablage. EINEN SITZ. Das muss klar sein.'
+    }
+  };
+
+  // Select answer
+  document.querySelectorAll('.quiz-option').forEach(btn => {
+    btn.addEventListener('click', function() {
+      const card = this.closest('.quiz-card');
+      card.querySelectorAll('.quiz-option').forEach(b => b.classList.remove('selected'));
+      this.classList.add('selected');
+
+      // Show minivan warning on Q7
+      if (this.dataset.minivan) {
+        const warning = document.getElementById('minivan-warning');
+        if (this.dataset.minivan === 'yes' || this.dataset.minivan === 'maybe') {
+          warning.style.display = 'block';
+        } else {
+          warning.style.display = 'none';
+        }
+      }
+
+      // Show next button
+      const qIdx = parseInt(card.dataset.q);
+      const nextBtn = document.getElementById('next-' + qIdx);
+      if (nextBtn) nextBtn.classList.add('visible');
+    });
+  });
+
+  // Next question buttons
+  for (let i = 0; i < totalQuestions; i++) {
+    const btn = document.getElementById('next-' + i);
+    if (!btn) continue;
+    btn.addEventListener('click', function() {
+      const card = document.querySelector('.quiz-card[data-q="' + i + '"]');
+      const selected = card.querySelector('.quiz-option.selected');
+      if (!selected) return;
+
+      // Add scores
+      const s = JSON.parse(selected.dataset.scores);
+      for (const key in s) scores[key] += s[key];
+
+      if (i < totalQuestions - 1) {
+        // Next question
+        card.classList.remove('active');
+        const next = document.querySelector('.quiz-card[data-q="' + (i + 1) + '"]');
+        next.classList.add('active');
+        currentQuestion = i + 1;
+
+        // Update progress
+        const pct = Math.round(((i + 2) / totalQuestions) * 100);
+        document.getElementById('q-progress').style.width = pct + '%';
+        document.getElementById('q-current').textContent = i + 2;
+        document.getElementById('q-label').textContent = 'Frage ' + (i + 2);
+
+        // Scroll to quiz
+        document.getElementById('quiz').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      } else {
+        // Show result
+        showResult();
+      }
+    });
+  }
+
+  function showResult() {
+    // Determine recommendation
+    let car = determineCarRecommendation();
+
+    // Fill result section
+    const carInfo = CAR_DATA[car];
+    document.getElementById('result-car-name').textContent = carInfo.name;
+    document.getElementById('result-car-why').textContent = carInfo.why;
+    document.getElementById('result-baby-reaction').textContent = carInfo.baby;
+
+    // Try image, fallback to emoji
+    const imgWrap = document.getElementById('result-img-wrap');
+    const img = document.createElement('img');
+    img.src = carInfo.imgSrc;
+    img.alt = carInfo.name;
+    img.className = 'result-car-img';
+    img.onerror = function() {
+      imgWrap.innerHTML = '<div class="result-car-img-fallback">' + carInfo.emoji + '</div>';
+    };
+    imgWrap.innerHTML = '';
+    imgWrap.appendChild(img);
+
+    // WhatsApp button
+    const msg = encodeURIComponent(
+      '👶 Das Baby hat entschieden! Unser Auto soll der ' + carInfo.name + ' werden! 🎉\n' +
+      'Ergebnis generiert auf: ' + window.location.href
+    );
+    document.getElementById('whatsapp-btn').onclick = function() {
+      window.open('https://wa.me/?text=' + msg, '_blank');
+    };
+
+    // Hide quiz, show result
+    document.getElementById('quiz').style.display = 'none';
+    const resultSection = document.getElementById('result');
+    resultSection.classList.add('visible');
+    resultSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+    // Fire confetti
+    fireConfetti();
+  }
+
+  function determineCarRecommendation() {
+    const s = scores;
+
+    // Logic: weighted decision tree
+    if (s.eco >= 4) return 'corolla';
+    if (s.future >= 5 && s.budget >= 3) return 'jogger';
+    if (s.brand >= 4 && s.space <= 2) return 'variant';
+    if (s.brand >= 3 && s.space >= 3) return 'variant';
+    if (s.budget >= 4 && s.space >= 3) return 'ceed';
+    if (s.space >= 6) return 'octavia';
+    if (s.space >= 4) return 'octavia';
+    if (s.budget >= 3 && s.future >= 2) return 'ceed';
+    if (s.brand >= 3) return 'sportsvan';
+    return 'octavia'; // Best all-round default
+  }
+
+  function restartQuiz() {
+    // Reset scores
+    scores = { space: 0, eco: 0, brand: 0, budget: 0, future: 0 };
+    currentQuestion = 0;
+
+    // Reset UI
+    document.querySelectorAll('.quiz-card').forEach((c, i) => {
+      c.classList.remove('active');
+      c.querySelectorAll('.quiz-option').forEach(b => b.classList.remove('selected'));
+      const nextBtn = document.getElementById('next-' + i);
+      if (nextBtn) nextBtn.classList.remove('visible');
+    });
+
+    // Reset progress
+    document.getElementById('q-progress').style.width = '14%';
+    document.getElementById('q-current').textContent = '1';
+    document.getElementById('q-label').textContent = 'Frage 1';
+    document.getElementById('minivan-warning').style.display = 'none';
+
+    // First card active
+    document.querySelector('.quiz-card[data-q="0"]').classList.add('active');
+
+    // Show quiz, hide result
+    document.getElementById('quiz').style.display = '';
+    document.getElementById('result').classList.remove('visible');
+
+    document.getElementById('quiz').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  /* ───────────────────────────────────────────
+     BABY CHECK QUIZ
+  ─────────────────────────────────────────── */
+  const BC_FEEDBACK = [
+    { correct: '✅ Richtig! 8–12 Mal in 24 Stunden — das sind alle 2–3 Stunden. Auch nachts. Vor allem nachts. Gute Nacht.', wrong: '❌ Leider falsch. Die Antwort ist 8–12 Mal täglich, alle 2–3 Stunden. Auch um 3 Uhr morgens. Herzlich willkommen.' },
+    { correct: '✅ Genau! 37°C — Körpertemperatur. Der Ellenbogen-Test im Wasser ist ein alter Trick dafür.', wrong: '❌ Falsch! 37°C ist die richtige Antwort. Nicht zu kalt, nicht zu heiß — wir kochen kein Babysüppchen.' },
+    { correct: '✅ Korrekt! 16–18 Stunden Schlaf, aber verteilt auf viele kurze Phasen. Ihr werdet trotzdem müde sein.', wrong: '❌ Falsch! 16–18 Stunden — klingt viel, aber leider nie am Stück. Das ist der Witz dabei.' },
+    { correct: '✅ Richtig! Rooming-in bedeutet: Baby und Mutter im selben Zimmer, rund um die Uhr. Bonding pur.', wrong: '❌ Falsch. Rooming-in = Baby schläft im selben Zimmer wie die Mutter. Kein Ikea-Möbelstück.' },
+    { correct: '✅ Perfekt! Der Apgar-Score bewertet Herzschlag, Atmung, Reflexe, Hautfarbe und Muskeltonus — 1, 5 und 10 Minuten nach der Geburt.', wrong: '❌ Leider falsch. Der Apgar-Score ist ein 5-Punkte-Gesundheitscheck direkt nach der Geburt. Benannt nach Dr. Virginia Apgar.' }
+  ];
+
+  let bcPhilippScore = 0;
+  let bcAnnalisaScore = 0;
+  let bcCurrentPlayer = 'philipp'; // 'philipp' or 'annalisa'
+  let bcCurrentQ = 0;
+  // Store both players' answers to show same questions
+  let bcPhilippAnswers = [];
+  let bcAnnalisaAnswers = [];
+
+  function bcStartPhilipp() {
+    document.getElementById('bc-start').style.display = 'none';
+    document.getElementById('bc-quiz-area').style.display = 'block';
+    bcCurrentPlayer = 'philipp';
+    bcCurrentQ = 0;
+    bcPhilippScore = 0;
+    document.getElementById('bc-p1-card').classList.add('active-player');
+    document.getElementById('bc-p2-card').classList.remove('active-player');
+    document.getElementById('bc-phase-title').textContent = '🧔 Philipps Runde';
+    document.getElementById('bc-phase-sub').textContent = 'Annalisa schaut bitte weg. Oder zählt schon mal Kinderzimmer-Farben.';
+    bcResetCards();
+    document.querySelector('.bc-card[data-bc="0"]').classList.add('active');
+    bcUpdateProgress(0);
+    document.getElementById('babycheck').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  function bcStartAnnalisa() {
+    document.getElementById('bc-switch').style.display = 'none';
+    document.getElementById('bc-quiz-area').style.display = 'block';
+    bcCurrentPlayer = 'annalisa';
+    bcCurrentQ = 0;
+    bcAnnalisaScore = 0;
+    document.getElementById('bc-p1-card').classList.remove('active-player');
+    document.getElementById('bc-p2-card').classList.add('active-player');
+    document.getElementById('bc-phase-title').textContent = '👩 Annalisas Runde';
+    document.getElementById('bc-phase-sub').textContent = 'Philipp, bitte nicht verraten. Das wäre unfair. Dem Baby gegenüber.';
+    bcResetCards();
+    document.querySelector('.bc-card[data-bc="0"]').classList.add('active');
+    bcUpdateProgress(0);
+    document.getElementById('babycheck').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  function bcResetCards() {
+    document.querySelectorAll('.bc-card').forEach(c => {
+      c.classList.remove('active');
+      c.querySelectorAll('.bc-option').forEach(o => {
+        o.classList.remove('correct', 'wrong');
+        o.disabled = false;
+      });
+      c.querySelectorAll('.bc-feedback').forEach(f => {
+        f.style.display = 'none';
+        f.className = 'bc-feedback';
+      });
+      c.querySelectorAll('.bc-next-btn').forEach(b => b.classList.remove('visible'));
+    });
+  }
+
+  function bcUpdateProgress(qIdx) {
+    const pct = Math.round(((qIdx + 1) / 5) * 100);
+    document.getElementById('bc-progress').style.width = pct + '%';
+    document.getElementById('bc-q-current').textContent = qIdx + 1;
+    document.getElementById('bc-q-label').textContent = 'Frage ' + (qIdx + 1);
+  }
+
+  // Wire up BC options
+  document.querySelectorAll('.bc-option').forEach(btn => {
+    btn.addEventListener('click', function() {
+      const card = this.closest('.bc-card');
+      const qIdx = parseInt(card.dataset.bc);
+      const isCorrect = this.dataset.correct === 'true';
+
+      // Disable all options
+      card.querySelectorAll('.bc-option').forEach(o => {
+        o.disabled = true;
+        if (o.dataset.correct === 'true') o.classList.add('correct');
+      });
+      if (!isCorrect) this.classList.add('wrong');
+
+      // Score
+      if (isCorrect) {
+        if (bcCurrentPlayer === 'philipp') {
+          bcPhilippScore++;
+          document.getElementById('bc-p1-display').textContent = bcPhilippScore;
+        } else {
+          bcAnnalisaScore++;
+          document.getElementById('bc-p2-display').textContent = bcAnnalisaScore;
+        }
+      }
+
+      // Feedback
+      const fb = document.getElementById('bc-fb-' + qIdx);
+      fb.textContent = isCorrect ? BC_FEEDBACK[qIdx].correct : BC_FEEDBACK[qIdx].wrong;
+      fb.className = 'bc-feedback ' + (isCorrect ? 'correct' : 'wrong');
+      fb.style.display = 'block';
+
+      // Show next button
+      document.getElementById('bc-next-' + qIdx).classList.add('visible');
+    });
+  });
+
+  // Wire up BC next buttons
+  for (let i = 0; i < 5; i++) {
+    const btn = document.getElementById('bc-next-' + i);
+    if (!btn) continue;
+    btn.addEventListener('click', function() {
+      const card = document.querySelector('.bc-card[data-bc="' + i + '"]');
+      card.classList.remove('active');
+
+      if (i < 4) {
+        // Next question
+        document.querySelector('.bc-card[data-bc="' + (i + 1) + '"]').classList.add('active');
+        bcUpdateProgress(i + 1);
+        document.getElementById('babycheck').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      } else {
+        // End of this player's round
+        document.getElementById('bc-quiz-area').style.display = 'none';
+        if (bcCurrentPlayer === 'philipp') {
+          // Switch to Annalisa
+          const switchDiv = document.getElementById('bc-switch');
+          switchDiv.style.display = 'block';
+          document.getElementById('bc-switch-title').textContent = '🧔 Philipps Runde: ' + bcPhilippScore + '/5 richtig!';
+          document.getElementById('bc-switch-text').textContent = 'Jetzt ist Annalisa dran! Philipp, bitte wegschauen. Oder schon mal den Führerschein raussuchen.';
+          switchDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        } else {
+          // Show final result
+          bcShowResult();
+        }
+      }
+    });
+  }
+
+  function bcShowResult() {
+    document.getElementById('bc-result').classList.add('visible');
+    document.getElementById('bc-result').scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+    document.getElementById('bc-p1-final').textContent = bcPhilippScore + '/5';
+    document.getElementById('bc-p2-final').textContent = bcAnnalisaScore + '/5';
+
+    let trophy, winnerText, verdict;
+
+    if (bcPhilippScore > bcAnnalisaScore) {
+      trophy = '🏆';
+      winnerText = 'Philipp gewinnt!';
+      document.getElementById('bc-p1-result-box').classList.add('winner');
+      verdict = '👶 Philipp darf das Auto aussuchen. Annalisa nickt. Oder zumindest so tun als ob. Philipp, du hast ' + bcPhilippScore + ' von 5 Fragen richtig — du bist bereit! Na ja... bereit genug. Für ein Auto bist du definitiv bereit. Das Kind kommt so oder so.';
+    } else if (bcAnnalisaScore > bcPhilippScore) {
+      trophy = '👑';
+      winnerText = 'Annalisa gewinnt!';
+      document.getElementById('bc-p2-result-box').classList.add('winner');
+      verdict = '👶 Annalisa darf das Auto aussuchen! Natürlich. Sie wusste sowieso schon, welches es wird. Philipp, du schweigst jetzt. ' + bcAnnalisaScore + ' von 5 — respektabel, Mama!';
+    } else {
+      trophy = '🤝';
+      winnerText = 'Unentschieden!';
+      document.getElementById('bc-p1-result-box').classList.add('winner');
+      document.getElementById('bc-p2-result-box').classList.add('winner');
+      verdict = '👶 Unentschieden! Beiden gleichauf mit ' + bcPhilippScore + ' von 5. Das Baby entscheidet deshalb selbst: nehmt den Skoda Octavia Combi. Ihr werdet es nicht bereuen. Ich werde es nicht bereuen. Alle gewinnen.';
+    }
+
+    document.getElementById('bc-trophy').textContent = trophy;
+    document.getElementById('bc-winner-text').textContent = winnerText;
+    document.getElementById('bc-verdict').textContent = verdict;
+    fireConfetti();
+  }
+
+  function bcRestart() {
+    bcPhilippScore = 0;
+    bcAnnalisaScore = 0;
+    document.getElementById('bc-p1-display').textContent = '0';
+    document.getElementById('bc-p2-display').textContent = '0';
+    document.getElementById('bc-p1-result-box').classList.remove('winner');
+    document.getElementById('bc-p2-result-box').classList.remove('winner');
+    document.getElementById('bc-p1-card').classList.remove('active-player');
+    document.getElementById('bc-p2-card').classList.remove('active-player');
+    document.getElementById('bc-result').classList.remove('visible');
+    document.getElementById('bc-switch').style.display = 'none';
+    document.getElementById('bc-quiz-area').style.display = 'none';
+    document.getElementById('bc-start').style.display = 'block';
+    document.getElementById('babycheck').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  /* ───────────────────────────────────────────
+     CONFETTI
+  ─────────────────────────────────────────── */
+  const canvas = document.getElementById('confetti-canvas');
+  const ctx = canvas.getContext('2d');
+  let particles = [];
+  let animFrame = null;
+
+  function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  window.addEventListener('resize', resizeCanvas);
+  resizeCanvas();
+
+  function createParticle() {
+    return {
+      x: Math.random() * canvas.width,
+      y: -10,
+      w: Math.random() * 10 + 5,
+      h: Math.random() * 5 + 3,
+      color: ['#f5c842','#a8d8ea','#ff6b6b','#4caf88','#ffffff','#ffb347'][Math.floor(Math.random()*6)],
+      vx: (Math.random() - 0.5) * 3,
+      vy: Math.random() * 3 + 2,
+      rot: Math.random() * 360,
+      rotV: (Math.random() - 0.5) * 6,
+      alpha: 1
+    };
+  }
+
+  function fireConfetti() {
+    if (animFrame) cancelAnimationFrame(animFrame);
+    particles = [];
+    for (let i = 0; i < 120; i++) {
+      const p = createParticle();
+      p.y = Math.random() * -200;
+      particles.push(p);
+    }
+    animateConfetti();
+    setTimeout(() => {
+      if (animFrame) cancelAnimationFrame(animFrame);
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }, 4000);
+  }
+
+  function animateConfetti() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    particles = particles.filter(p => p.y < canvas.height + 20 && p.alpha > 0.1);
+    particles.forEach(p => {
+      p.x += p.vx;
+      p.y += p.vy;
+      p.rot += p.rotV;
+      p.vy += 0.05; // gravity
+      if (p.y > canvas.height * 0.7) p.alpha -= 0.02;
+
+      ctx.save();
+      ctx.globalAlpha = Math.max(0, p.alpha);
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.rot * Math.PI / 180);
+      ctx.fillStyle = p.color;
+      ctx.fillRect(-p.w/2, -p.h/2, p.w, p.h);
+      ctx.restore();
+    });
+
+    if (particles.length > 0) {
+      animFrame = requestAnimationFrame(animateConfetti);
+    } else {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+  }
+</script>
+
+</body>
+</html>
