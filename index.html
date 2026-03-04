@@ -146,17 +146,22 @@
       display: none;
       flex-direction: column;
       justify-content: center;
+      align-items: center;
       gap: 5px;
-      width: 36px;
-      height: 36px;
+      width: 42px;
+      height: 42px;
       cursor: pointer;
-      background: none;
-      border: none;
-      padding: 4px;
+      background: rgba(245,200,66,0.12);
+      border: 2px solid var(--yellow);
+      border-radius: var(--radius-sm);
+      padding: 8px;
       flex-shrink: 0;
+      transition: background 0.2s;
     }
+    .nav-burger:hover { background: rgba(245,200,66,0.22); }
     .nav-burger span {
       display: block;
+      width: 100%;
       height: 2px;
       background: var(--yellow);
       border-radius: 2px;
@@ -1270,72 +1275,120 @@
        RESPONSIVE
     ═══════════════════════════════════════════ */
     @media (max-width: 768px) {
-      /* Nav handled by hamburger block above */
-      .nav-logo { font-size: 0.9rem; }
+      /* Nav */
+      .nav-logo { font-size: 0.85rem; }
 
-      /* Hero */
-      #hero { padding: 5rem 1rem 3rem; }
-      .hero-gif-wrap { max-width: 100%; }
-      .hero-letter { padding: 1.25rem; font-size: 0.95rem; }
-      .hero-letter::before { font-size: 3rem; }
-      .hero-cta { flex-direction: column; align-items: stretch; }
-      .hero-cta .btn { text-align: center; justify-content: center; }
+      /* Sections — weniger Luft */
+      .section { padding: 2rem 0; }
+      .section-title { font-size: 1.45rem; margin-bottom: 0.3rem; }
+      .section-sub { font-size: 0.9rem; margin-bottom: 1.75rem; }
+      .container { padding: 0 1rem; }
 
-      /* Countdown */
-      .countdown { gap: 0.4rem; }
-      .countdown-box { min-width: 56px; padding: 0.65rem 0.5rem; }
-      .countdown-num { font-size: 1.6rem; }
-      .countdown-unit { font-size: 0.65rem; }
+      /* Hero — kompakter */
+      #hero { padding: 4.5rem 1rem 2rem; min-height: auto; }
+      .hero-shout { line-height: 1.05; margin-bottom: 0.35rem; }
+      .hero-shout-sub { font-size: 0.8rem; margin-bottom: 1.25rem; }
+      .hero-gif-wrap { max-width: 100%; margin-bottom: 0; }
+      .hero-badge { font-size: 0.75rem; padding: 0.3rem 0.8rem; margin-bottom: 1.25rem; }
+      .hero-title { font-size: 1.6rem !important; margin-top: 1.25rem !important; }
+      .hero-subtitle { font-size: 1rem; margin-bottom: 1rem; }
+
+      /* Hero-Brief: kompakter, kein riesiges Anführungszeichen */
+      .hero-letter { padding: 1rem 1rem 1rem 1.25rem; font-size: 0.88rem; line-height: 1.6; margin-bottom: 1.5rem; }
+      .hero-letter::before { font-size: 2.5rem; top: -0.6rem; left: 0.5rem; }
+      .hero-letter p { margin-bottom: 0.5rem; }
+
+      /* Countdown — 2×2 Grid statt Zeile */
+      .countdown { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; max-width: 260px; margin: 0 auto; }
+      .countdown-box { min-width: unset; padding: 0.6rem 0.5rem; }
+      .countdown-num { font-size: 1.75rem; }
+      .countdown-unit { font-size: 0.62rem; }
+      .countdown-label { font-size: 0.75rem; }
 
       /* Stressmeter */
-      .stressmeter { padding: 1rem; }
+      .stressmeter { padding: 0.85rem 1rem; margin-bottom: 1.25rem; }
+      .stressmeter-label { font-size: 0.8rem; }
 
-      /* Sections */
-      .section { padding: 3rem 0; }
-      .section-title { font-size: 1.6rem; }
+      /* CTA Buttons */
+      .hero-cta { flex-direction: column; align-items: stretch; gap: 0.6rem; }
+      .hero-cta .btn { text-align: center; justify-content: center; padding: 0.875rem 1.5rem; font-size: 0.95rem; }
 
-      /* Why cards */
-      .why-grid { grid-template-columns: 1fr; gap: 1rem; }
+      /* Why-Karten */
+      .why-grid { grid-template-columns: 1fr; gap: 0.75rem; }
+      .why-card { padding: 1.25rem; }
+      .why-icon { font-size: 2rem; margin-bottom: 0.5rem; }
+      .why-card h3 { font-size: 1rem; margin-bottom: 0.4rem; }
+      .why-card p { font-size: 0.875rem; }
 
-      /* Cars */
-      .cars-grid { grid-template-columns: 1fr; }
-      .car-lists { grid-template-columns: 1fr; gap: 0.5rem; }
-      .car-body { padding: 1.25rem; }
+      /* Auto-Karten */
+      .cars-grid { grid-template-columns: 1fr; gap: 1rem; }
+      .car-img-wrap { height: 170px; }
+      .car-body { padding: 1rem; }
+      .car-name { font-size: 1.2rem; }
+      .car-joke { font-size: 0.82rem; padding: 0.4rem 0.6rem; margin-bottom: 0.85rem; }
+      .car-lists { grid-template-columns: 1fr 1fr; gap: 0.6rem; margin-bottom: 0.85rem; }
+      .car-list li { font-size: 0.8rem; }
+      .car-price { font-size: 0.75rem; }
+      .car-baby-comment { font-size: 0.8rem; padding: 0.6rem; }
+      .car-boot { margin-bottom: 0.75rem; }
 
       /* Quiz */
-      .quiz-card { padding: 1.25rem; }
-      .quiz-question { font-size: 1.2rem; }
-      .quiz-option { font-size: 0.9rem; padding: 0.8rem 1rem; }
+      .quiz-container { padding: 0; }
+      .quiz-card { padding: 1.1rem; }
+      .quiz-question { font-size: 1.1rem; line-height: 1.3; }
+      .quiz-subtext { font-size: 0.8rem; margin-bottom: 1.25rem; }
+      .quiz-option { font-size: 0.875rem; padding: 0.7rem 0.9rem; gap: 0.5rem; }
+      .quiz-option-emoji { font-size: 1.1rem; }
+      .quiz-next-btn { padding: 0.8rem; font-size: 0.95rem; }
 
       /* Baby Check */
-      .bc-players { grid-template-columns: 1fr 1fr; gap: 0.75rem; }
-      .bc-player { padding: 0.9rem 0.5rem; }
-      .bc-player-avatar { font-size: 2rem; }
-      .bc-player-score { font-size: 1.6rem; }
-      .bc-player-name { font-size: 0.95rem; }
-      .bc-card { padding: 1.25rem; }
-      .bc-question { font-size: 1.15rem; }
-      .bc-option { font-size: 0.9rem; padding: 0.8rem 0.9rem; }
-      .bc-result-scores { gap: 0.75rem; }
-      .bc-score-box { min-width: 100px; padding: 0.9rem 1rem; }
-      .bc-score-big { font-size: 2rem; }
+      .bc-container { padding: 0; }
+      .bc-players { gap: 0.6rem; margin-bottom: 1.5rem; }
+      .bc-player { padding: 0.75rem 0.4rem; }
+      .bc-player-avatar { font-size: 1.75rem; margin-bottom: 0.2rem; }
+      .bc-player-name { font-size: 0.875rem; }
+      .bc-player-score { font-size: 1.5rem; }
+      .bc-player-label { font-size: 0.65rem; }
+      .bc-phase-banner { padding: 0.9rem 1rem; margin-bottom: 1.25rem; }
+      .bc-phase-banner h3 { font-size: 1.05rem; }
+      .bc-phase-banner p { font-size: 0.8rem; }
+      .bc-card { padding: 1.1rem; }
+      .bc-question { font-size: 1.05rem; line-height: 1.3; }
+      .bc-baby-hint { font-size: 0.78rem; margin-bottom: 1.1rem; }
+      .bc-option { font-size: 0.875rem; padding: 0.7rem 0.85rem; }
+      .bc-next-btn { padding: 0.8rem; font-size: 0.95rem; }
+      .bc-start-screen h3 { font-size: 1.3rem; }
+      .bc-start-screen p { font-size: 0.875rem; }
+      .bc-result-scores { gap: 0.6rem; }
+      .bc-score-box { min-width: 90px; padding: 0.75rem 0.75rem; }
+      .bc-score-big { font-size: 1.75rem; }
+      .bc-result-winner { font-size: 1.5rem; }
+      .bc-result-trophy { font-size: 3.5rem; margin-bottom: 0.75rem; }
+      .bc-baby-verdict { font-size: 0.875rem; padding: 0.9rem; }
 
       /* Result */
-      .result-car-body { padding: 1.25rem; }
-      .result-car-name { font-size: 1.5rem; }
-      .result-actions { flex-direction: column; align-items: stretch; }
-      .result-actions button, .result-actions .btn-whatsapp { text-align: center; justify-content: center; width: 100%; }
+      .result-car-img, .result-car-img-fallback { height: 190px; }
+      .result-car-body { padding: 1rem; }
+      .result-car-name { font-size: 1.35rem; }
+      .result-car-why { font-size: 0.9rem; }
+      .result-baby-reaction { font-size: 0.85rem; }
+      .result-actions { flex-direction: column; align-items: stretch; gap: 0.6rem; }
+      .result-actions button,
+      .result-actions .btn-whatsapp { text-align: center; justify-content: center; width: 100%; padding: 0.875rem; }
 
-      /* Table */
-      table { font-size: 0.8rem; }
-      thead th, tbody td { padding: 0.65rem 0.5rem; }
+      /* Vergleich-Tabelle — horizontal scrollbar */
+      .table-wrap { margin: 0 -1rem; padding: 0 1rem; }
+      table { font-size: 0.75rem; min-width: 580px; }
+      thead th, tbody td { padding: 0.55rem 0.4rem; }
+      .table-note { font-size: 0.78rem; }
     }
 
     @media (max-width: 400px) {
-      .countdown-box { min-width: 48px; padding: 0.5rem 0.35rem; }
-      .countdown-num { font-size: 1.3rem; }
-      .bc-players { gap: 0.5rem; }
-      .bc-player-name { font-size: 0.85rem; }
+      .countdown { max-width: 220px; }
+      .countdown-num { font-size: 1.5rem; }
+      .hero-title { font-size: 1.35rem !important; }
+      .car-lists { grid-template-columns: 1fr; }
+      .bc-players { grid-template-columns: 1fr 1fr; }
     }
   </style>
 </head>
